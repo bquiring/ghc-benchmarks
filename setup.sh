@@ -10,6 +10,7 @@ for p in happy-2.1.3 happy-lib-2.1.3 alex-3.5.2.0 cpphs-1.20.10 skylighting-0.13
   [ -d "$p" ] || cabal unpack "$p"
 done
 python3 gen-constraints.py
+python3 fix-custom-setups.py --listed
 python3 fix-custom-setups.py $(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print "exe:" $2 }' | sort -u)
 mkdir -p inputs out
 cat "${GHC_TREE:-$HOME/projects/ghc-webs}"/docs/users_guide/*.rst > inputs/guide.rst

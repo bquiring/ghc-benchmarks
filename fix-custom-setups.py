@@ -14,6 +14,30 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 targets = sys.argv[1:]
 pins = dict(re.findall(r'^\s+(\S+) == ([^\s,]+),?$', open(os.path.join(HERE, 'cached.project')).read(), re.M))
 
+
+def patch(d, pkg):
+    """Unpack package-version d if needed and make its build simple"""
+    if not os.path.isdir(os.path.join(HERE, d)):
+        subprocess.run(['cabal', 'unpack', d], cwd=HERE, check=True, capture_output=True)
+    cf = os.path.join(HERE, d, pkg + '.cabal')
+    s = open(cf).read()
+    s = re.sub(r'(?im)^(build-type:\s*)Custom', r'\1Simple', s)
+    s = re.sub(r'(?im)^custom-setup\s*\n((?:[ \t]+.*\n|\s*\n)*)', '', s)
+    open(cf, 'w').write(s)
+
+
+# --listed: (re)create the packages cabal.project already lists as patched
+if targets[:1] == ['--listed']:
+    p = open(os.path.join(HERE, 'cabal.project')).read()
+    block = p.split('-- build-type changed from Custom (cabal-doctest) to Simple\n', 1)[1]
+    for line in block.split('\n'):
+        m = re.match(r'\s+(([A-Za-z0-9-]+?)-[0-9][0-9.]*)/$', line)
+        if not m:
+            break
+        patch(m.group(1), m.group(2))
+        print('patched', m.group(1))
+    sys.exit(0)
+
 for _ in range(40):
     r = subprocess.run(['cabal', 'build', '--offline', '--dry-run'] + targets,
                        cwd=HERE, capture_output=True, text=True)
@@ -28,13 +52,7 @@ for _ in range(40):
     if ver is None:
         print('no cached version of', pkg); sys.exit(1)
     d = '%s-%s' % (pkg, ver)
-    if not os.path.isdir(os.path.join(HERE, d)):
-        subprocess.run(['cabal', 'unpack', d], cwd=HERE, check=True, capture_output=True)
-    cf = os.path.join(HERE, d, pkg + '.cabal')
-    s = open(cf).read()
-    s = re.sub(r'(?im)^(build-type:\s*)Custom', r'\1Simple', s)
-    s = re.sub(r'(?im)^custom-setup\s*\n((?:[ \t]+.*\n|\s*\n)*)', '', s)
-    open(cf, 'w').write(s)
+    patch(d, pkg)
     pf = os.path.join(HERE, 'cabal.project')
     p = open(pf).read()
     if d + '/' not in p:
