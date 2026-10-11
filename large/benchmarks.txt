@@ -1,7 +1,8 @@
 # The large group (BENCH_GROUP=large): name<TAB>package:exe:name<TAB>command, run in this directory<TAB>optional ok=EXIT,CODES
+# dhall: no usable cache directory, so that every run checks the imports' hashes (a cached run is twice as fast)
 shellcheck	ShellCheck:exe:shellcheck	EXE --shell=sh --format=gcc GHC_TREE/configure	ok=0,1
 hledger	hledger:exe:hledger	EXE -f inputs/journal.journal balance --tree --monthly --value=then,$ -o out/hledger.txt
-dhall	dhall:exe:dhall	EXE type --file dhall-1.42.3/dhall-lang/Prelude/package.dhall
+dhall	dhall:exe:dhall	env XDG_CACHE_HOME=/nonexistent/cache EXE type --file dhall-1.42.3/dhall-lang/Prelude/package.dhall
 pandoc	pandoc-cli:exe:pandoc	EXE -f rst -t html5 --standalone --metadata title=guide -o out/pandoc.html inputs/guide.rst
 # set aside: Agda 2.8.0.2 does not build with the GHC 9.15 snapshot (an ambiguous Bifunctor in
 # Agda.TypeChecking.Generalize; the plain compiler panics in GHC.Tc.Instance.Family on another module)
