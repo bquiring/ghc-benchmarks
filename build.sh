@@ -29,6 +29,9 @@ import: cabal.project
 package *
   ghc-options: -O2 -rtsopts $OPTS
 EOF
+# cabal does not notice changes to the imported cabal.project in its plan
+# cache: re-plan every time
+rm -rf "dist-$NAME/cache"
 exes=$(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print ($2 ~ /:/ ? $2 : "exe:" $2) }' | sort -u | tr '\n' ' ')
 cabal --store-dir="$STORE" build -j4 --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
   > "results/$NAME/build.log" 2>&1

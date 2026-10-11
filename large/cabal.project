@@ -4,6 +4,8 @@
 packages: ShellCheck-0.11.0/ hledger-1.52.4/ dhall-1.42.3/ pandoc-cli-3.12/ Agda-2.8.0.2/
           -- build-type changed from Custom (cabal-doctest) to Simple
           xml-conduit-1.10.1.0/
+          -- nubOrd(By) assumed in base after GHC 9.14, not in the 9.15 snapshot
+          extra-1.8.1/
 with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
 allow-newer: all
 -- Setup scripts (build-type: Custom) use the compiler's own Cabal

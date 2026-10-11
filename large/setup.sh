@@ -6,11 +6,13 @@
 set -eu
 cd "$(dirname "$0")"
 GHC_TREE=${GHC_TREE:-$HOME/projects/ghc-webs}
-for p in ShellCheck-0.11.0 hledger-1.52.4 dhall-1.42.3 pandoc-cli-3.12 Agda-2.8.0.2 xml-conduit-1.10.1.0; do
+for p in ShellCheck-0.11.0 hledger-1.52.4 dhall-1.42.3 pandoc-cli-3.12 Agda-2.8.0.2 xml-conduit-1.10.1.0 extra-1.8.1; do
   [ -d "$p" ] || cabal unpack "$p"
 done
 # xml-conduit: build-type Custom (cabal-doctest) to Simple
 sed -i 's/^\([Bb]uild-[Tt]ype:[ \t]*\)Custom/\1Simple/' xml-conduit-1.10.1.0/xml-conduit.cabal
+# extra: nubOrd(By) are assumed in base after GHC 9.14, not in the 9.15 snapshot
+sed -i 's/^#if __GLASGOW_HASKELL__ <= 914$/#if __GLASGOW_HASKELL__ <= 915/' extra-1.8.1/src/Data/List/Extra.hs
 python3 - <<'PY'
 import re
 f = 'xml-conduit-1.10.1.0/xml-conduit.cabal'
