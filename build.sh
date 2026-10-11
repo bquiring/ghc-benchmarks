@@ -14,7 +14,11 @@
 # dependencies, so it is not used; nothing is downloaded while every pinned
 # version is cached: setup.sh).  Separate from nofib (ghc-webs/webs-bench/run-nofib.sh).
 set -u
-ulimit -v 4000000   # see the resource limits in the memory notes: cap every process
+# see the resource limits in the memory notes: cap every process.  The large
+# group's heaviest modules (pandoc, Agda) need more than 4 GB with the debug
+# compiler at -O2: it runs with BENCH_ULIMIT=8000000 BENCH_JOBS=2 inside a
+# 16 GB scope, the same total as 4 jobs of 4 GB
+ulimit -v "${BENCH_ULIMIT:-4000000}"
 cd "$(dirname "$0")"
 STORE=$PWD/store
 # A benchmark group: a subdirectory with its own benchmarks.txt and
@@ -33,7 +37,7 @@ EOF
 # cache: re-plan every time
 rm -rf "dist-$NAME/cache"
 exes=$(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print ($2 ~ /:/ ? $2 : "exe:" $2) }' | sort -u | tr '\n' ' ')
-cabal --store-dir="$STORE" build -j4 --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
+cabal --store-dir="$STORE" build -j"${BENCH_JOBS:-4}" --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
   > "results/$NAME/build.log" 2>&1
 status=$?
 echo "[$NAME] build exit code: $status" | tee "results/$NAME/exit-code"
