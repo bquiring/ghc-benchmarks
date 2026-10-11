@@ -13,6 +13,8 @@ done
 sed -i 's/^\([Bb]uild-[Tt]ype:[ \t]*\)Custom/\1Simple/' xml-conduit-1.10.1.0/xml-conduit.cabal
 # extra: nubOrd(By) are assumed in base after GHC 9.14, not in the 9.15 snapshot
 grep -rl '__GLASGOW_HASKELL__ <= 914' extra-1.8.1/src | xargs -r sed -i 's/__GLASGOW_HASKELL__ <= 914/__GLASGOW_HASKELL__ <= 915/'
+# Agda: GHC 9.15's Data.List.NonEmpty exports mapMaybe, which Agda.Utils.List1 defines too
+sed -i 's/^import Data.List.NonEmpty as List1 hiding (fromList, toList, unzip)$/import Data.List.NonEmpty as List1 hiding (fromList, toList, unzip, mapMaybe)/' Agda-2.8.0.2/src/full/Agda/Utils/List1.hs
 python3 - <<'PY'
 import re
 f = 'xml-conduit-1.10.1.0/xml-conduit.cabal'

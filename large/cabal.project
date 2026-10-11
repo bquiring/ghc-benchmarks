@@ -6,6 +6,11 @@ packages: ShellCheck-0.11.0/ hledger-1.52.4/ dhall-1.42.3/ pandoc-cli-3.12/ Agda
           xml-conduit-1.10.1.0/
           -- nubOrd(By) assumed in base after GHC 9.14, not in the 9.15 snapshot
           extra-1.8.1/
+-- SpecConstr explodes on Hledger.Read.JournalReader at -O2 (out of memory
+-- under the 4 GB limit with the debug compiler, even without webs); off for
+-- hledger-lib in every configuration
+package hledger-lib
+  ghc-options: -fno-spec-constr
 with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
 allow-newer: all
 -- Setup scripts (build-type: Custom) use the compiler's own Cabal
