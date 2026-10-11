@@ -12,7 +12,7 @@ done
 # xml-conduit: build-type Custom (cabal-doctest) to Simple
 sed -i 's/^\([Bb]uild-[Tt]ype:[ \t]*\)Custom/\1Simple/' xml-conduit-1.10.1.0/xml-conduit.cabal
 # extra: nubOrd(By) are assumed in base after GHC 9.14, not in the 9.15 snapshot
-sed -i 's/^#if __GLASGOW_HASKELL__ <= 914$/#if __GLASGOW_HASKELL__ <= 915/' extra-1.8.1/src/Data/List/Extra.hs
+grep -rl '__GLASGOW_HASKELL__ <= 914' extra-1.8.1/src | xargs -r sed -i 's/__GLASGOW_HASKELL__ <= 914/__GLASGOW_HASKELL__ <= 915/'
 python3 - <<'PY'
 import re
 f = 'xml-conduit-1.10.1.0/xml-conduit.cabal'
