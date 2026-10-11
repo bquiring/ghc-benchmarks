@@ -33,6 +33,8 @@ import: cabal.project
 package *
   ghc-options: -O2 -rtsopts $OPTS
 EOF
+# Per-configuration exceptions (package stanzas), appended if present
+if [ -f "$NAME.extra" ]; then cat "$NAME.extra" >> "$NAME.project"; fi
 # cabal does not notice changes to the imported cabal.project in its plan
 # cache: re-plan every time
 rm -rf "dist-$NAME/cache"

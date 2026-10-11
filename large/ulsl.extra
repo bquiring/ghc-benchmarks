@@ -1,0 +1,5 @@
+-- Data splitting runs ShellCheck.Parser out of memory (ghc-webs
+-- WEBS-BUGS.md, open entry): off for ShellCheck while we check that
+-- everything compiles.  Not for benchmarking.
+package ShellCheck
+  ghc-options: -fno-core-webs-data-split -fno-core-webs-data-unbox -fno-core-webs-data-again
