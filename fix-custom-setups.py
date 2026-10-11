@@ -10,9 +10,13 @@ stanza, and list it in cabal.project; repeat until the plan resolves.
     python3 fix-custom-setups.py exe:a exe:b ..."""
 import os, re, subprocess, sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+# A benchmark group (BENCH_GROUP=large): its own cabal.project; without a
+# cached.project (the group downloads), the newest version is unpacked
+HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.environ.get('BENCH_GROUP', '.'))
 targets = sys.argv[1:]
-pins = dict(re.findall(r'^\s+(\S+) == ([^\s,]+),?$', open(os.path.join(HERE, 'cached.project')).read(), re.M))
+cached = os.path.join(HERE, 'cached.project')
+pins = (dict(re.findall(r'^\s+(\S+) == ([^\s,]+),?$', open(cached).read(), re.M))
+        if os.path.exists(cached) else None)
 
 
 def patch(d, pkg):
@@ -39,7 +43,7 @@ if targets[:1] == ['--listed']:
     sys.exit(0)
 
 for _ in range(40):
-    r = subprocess.run(['cabal', 'build', '--offline', '--dry-run'] + targets,
+    r = subprocess.run(['cabal', 'build'] + (['--offline'] if pins is not None else []) + ['--dry-run'] + targets,
                        cwd=HERE, capture_output=True, text=True)
     out = r.stdout + r.stderr
     if r.returncode == 0:
@@ -48,10 +52,19 @@ for _ in range(40):
     if not m:
         print('plan fails for another reason:'); print(out[-3000:]); sys.exit(1)
     pkg = m.group(1)
-    ver = pins.get(pkg)
-    if ver is None:
-        print('no cached version of', pkg); sys.exit(1)
-    d = '%s-%s' % (pkg, ver)
+    if pins is None:
+        u = subprocess.run(['cabal', 'unpack', pkg], cwd=HERE, capture_output=True, text=True)
+        m = re.search(r'Unpacking to (\S+)/', u.stdout + u.stderr)
+        if not m:
+            m = re.search(r'(%s-[0-9.]+)/' % re.escape(pkg), u.stdout + u.stderr)
+        if not m:
+            print('cannot unpack', pkg, u.stdout + u.stderr); sys.exit(1)
+        d = m.group(1)
+    else:
+        ver = pins.get(pkg)
+        if ver is None:
+            print('no cached version of', pkg); sys.exit(1)
+        d = '%s-%s' % (pkg, ver)
     patch(d, pkg)
     pf = os.path.join(HERE, 'cabal.project')
     p = open(pf).read()

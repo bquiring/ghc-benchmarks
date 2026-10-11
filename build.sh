@@ -16,6 +16,10 @@
 set -u
 ulimit -v 4000000   # see the resource limits in the memory notes: cap every process
 cd "$(dirname "$0")"
+STORE=$PWD/store
+# A benchmark group: a subdirectory with its own benchmarks.txt and
+# cabal.project (BENCH_GROUP=large); the store is shared
+cd "${BENCH_GROUP:-.}"
 NAME=$1
 OPTS=${2:-}
 mkdir -p "results/$NAME"
@@ -25,8 +29,8 @@ import: cabal.project
 package *
   ghc-options: -O2 -rtsopts $OPTS
 EOF
-exes=$(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print "exe:" $2 }' | sort -u | tr '\n' ' ')
-cabal --store-dir="$PWD/store" build -j4 --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
+exes=$(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print ($2 ~ /:/ ? $2 : "exe:" $2) }' | sort -u | tr '\n' ' ')
+cabal --store-dir="$STORE" build -j4 --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
   > "results/$NAME/build.log" 2>&1
 status=$?
 echo "[$NAME] build exit code: $status" | tee "results/$NAME/exit-code"

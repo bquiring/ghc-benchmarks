@@ -13,10 +13,16 @@ results/timing-<label>.json and .md: per benchmark, the median over rounds
 of each configuration's ratio to the first configuration."""
 import argparse, json, math, os, random, re, shlex, statistics as st, subprocess, sys, tempfile
 
-HERE = os.path.dirname(os.path.abspath(__file__))
+TOP = os.path.dirname(os.path.abspath(__file__))
+# A benchmark group: this directory, or a subdirectory with its own
+# benchmarks.txt and projects (BENCH_GROUP=large); the store is shared
+HERE = os.path.join(TOP, os.environ.get('BENCH_GROUP', '.'))
 # The GHC source tree: its compiler builds the benchmarks, and its sources
 # are some of the inputs
 GHC_TREE = os.environ.get('GHC_TREE', os.path.expanduser('~/projects/ghc-webs'))
+
+
+OK_CODES = {}
 
 
 def benchmarks():
@@ -25,14 +31,18 @@ def benchmarks():
         for line in f:
             if line.startswith('#') or not line.strip():
                 continue
-            name, exe, cmd = line.rstrip('\n').split('\t')
+            # an optional 4th column: the accepted exit codes (ok=0,1)
+            f4 = line.rstrip('\n').split('\t')
+            name, exe, cmd = f4[:3]
+            ok = [int(c) for c in f4[3][3:].split(',')] if len(f4) > 3 else [0]
+            OK_CODES[name] = ok
             out.append((name, exe, cmd))
     return out
 
 
 def binary(config, exe):
-    r = subprocess.run(['cabal', '--store-dir=' + os.path.join(HERE, 'store'), 'list-bin',
-                        '--project-file=%s.project' % config, '--builddir=dist-' + config, 'exe:' + exe],
+    r = subprocess.run(['cabal', '--store-dir=' + os.path.join(TOP, 'store'), 'list-bin',
+                        '--project-file=%s.project' % config, '--builddir=dist-' + config, exe if ':' in exe else 'exe:' + exe],
                        cwd=HERE, capture_output=True, text=True)
     return r.stdout.strip()
 
@@ -52,7 +62,7 @@ def run_once(config, name, exe, cmd, cpu, timeout):
         r = subprocess.run(full, cwd=HERE, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         return {'error': 'timeout'}
-    if r.returncode != 0:
+    if r.returncode not in OK_CODES.get(name, [0]):
         return {'error': 'exit %d: %s' % (r.returncode, (r.stdout + r.stderr)[-300:])}
     # A run must have written its output files (a program that refuses its
     # RTS options, for instance, stops at once and exits 0)

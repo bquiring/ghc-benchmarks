@@ -1,0 +1,11 @@
+/dist-*/
+/out/
+/inputs/
+/results/
+/*-[0-9]*/
+/agda-stdlib/
+/agda-stdlib-*.tar.gz
+/*.project
+!/cabal.project
+!/frozen.project
+/solve*.log
