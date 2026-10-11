@@ -12,6 +12,11 @@ packages: ShellCheck-0.11.0/ hledger-1.52.4/ dhall-1.42.3/ pandoc-cli-3.12/
 -- hledger-lib in every configuration
 package hledger-lib
   ghc-options: -fno-spec-constr
+-- The debug compiler's warnings (warnPprTrace) pretty-print huge structures
+-- on pandoc's largest modules (Text.Pandoc.Citeproc.BibTeX: out of 14 GB);
+-- no debug output for pandoc, in every configuration (code is unchanged)
+package pandoc
+  ghc-options: -dno-debug-output
 with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
 allow-newer: all
 -- Setup scripts (build-type: Custom) use the compiler's own Cabal
