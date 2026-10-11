@@ -1,0 +1,7 @@
+# name<TAB>exe<TAB>command: run in this directory; EXE is the binary, GHC_TREE the GHC source tree ($GHC_TREE, default ~/projects/ghc-webs)
+happy	happy	EXE -agc --strict -t happy-lib-2.1.3/data GHC_TREE/compiler/GHC/Parser.y -o out/happy.hs
+alex	alex	EXE -g --latin1 -t alex-3.5.2.0/data GHC_TREE/compiler/GHC/Parser/Lexer.x -o out/alex.hs
+cpphs	cpphs	EXE --noline -DMIN_VERSION_base(a,b,c)=1 -IGHC_TREE/compiler GHC_TREE/compiler/GHC/Driver/Session.hs -Oout/cpphs.hs
+skylighting	skylighting	EXE --syntax=haskell --format=html --output=out/skylighting.html GHC_TREE/compiler/GHC/Core/Opt/Simplify/Iteration.hs
+# not yet: its old dependencies (basement-0.0.14, from pandoc 2.19.2, the cached version) do not build with GHC 9.15
+#pandoc	pandoc	EXE -f rst -t html5 --standalone --metadata title=guide --output=out/pandoc.html inputs/guide.rst
