@@ -14,3 +14,5 @@ python3 fix-custom-setups.py --listed
 python3 fix-custom-setups.py $(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print "exe:" $2 }' | sort -u)
 mkdir -p inputs out
 cat "${GHC_TREE:-$HOME/projects/ghc-webs}"/docs/users_guide/*.rst > inputs/guide.rst
+# cpphs: one file of the compiler is too quick to time (0.01 s); all of compiler/GHC/*/ is ~1 s
+cat "${GHC_TREE:-$HOME/projects/ghc-webs}"/compiler/GHC/*/*.hs > inputs/cpphs.hs

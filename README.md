@@ -9,8 +9,8 @@ Each benchmark is a Hackage executable run on a fixed input:
 |-------------|----------------------------|----------------------------------------------------|
 | happy       | happy 2.1.3                | GHC's parser grammar, `compiler/GHC/Parser.y`      |
 | alex        | alex 3.5.2.0               | GHC's lexer, `compiler/GHC/Parser/Lexer.x`         |
-| cpphs       | cpphs 1.20.10              | `compiler/GHC/Driver/Session.hs`                   |
-| skylighting | skylighting 0.13 (CLI)     | `compiler/GHC/Core/Opt/Simplify/Iteration.hs`      |
+| cpphs       | cpphs 1.20.10              | GHC's `compiler/GHC/*/*.hs`, concatenated          |
+| skylighting | skylighting 0.13 (CLI)     | `compiler/GHC/Core/Opt/Simplify/Iteration.hs` (HTML on stdout) |
 
 (`benchmarks.txt` lists them; pandoc 2.19.2 is set aside: its cached
 dependencies do not build with GHC 9.15.)
