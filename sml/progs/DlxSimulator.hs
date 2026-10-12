@@ -2,7 +2,7 @@
 -- Matthew Fluet): a simulator for the DLX instruction set with a register
 -- file, a 65536-word memory and a 2-way set-associative cache, all as
 -- immutable arrays stored as lists (O(n) sub and update), running five
--- small DLX programs (the last computes a GCD).  Pure, as in the SML.  The
+-- small DLX programs (the last computes a GCD; of 1234 and 987 here, not 123456789 and 98765: the lazy translation keeps old memory versions alive, and the original input needs 7 GB).  Pure, as in the SML.  The
 -- SML's only effects inside that pure code are the cache's global random
 -- number generator and error messages on paths these programs never take;
 -- both use unsafePerformIO in NOINLINE functions.  MLton's Int is 32 bits:
@@ -625,6 +625,6 @@ doit (instructions, inputs) =
 main :: IO ()
 main = do
   n <- iterations 1
-  let progs = [(simple, []), (twos, [10]), (absP, [-10]), (fact, [12]), (gcdP, [123456789, 98765])]
+  let progs = [(simple, []), (twos, [10]), (absP, [-10]), (fact, [12]), (gcdP, [1234, 987])]
       outs = [ concatMap doit (vary i progs []) | i <- [1 .. n] ]
   putStr (if all (== head outs) outs then head outs else "fail\n")

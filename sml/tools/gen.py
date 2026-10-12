@@ -23,7 +23,7 @@ PROGRAMS = [
     # from-mlton/ (MLton's benchmarks)
     ('zebra', 'Zebra'), ('logic', 'Logic'), ('smith-normal-form', 'SmithNormalForm'),
     ('tsp', 'Tsp'), ('count-graphs', 'CountGraphs'), ('zern', 'Zern'), ('tyan', 'Tyan'),
-    ('barnes-hut', 'BarnesHut'), ('vliw', 'Vliw'),
+    ('barnes-hut', 'BarnesHut'), ('vliw', 'Vliw'), ('dlx-simulator', 'DlxSimulator'),
     # ocaml/ (OCaml testsuite tests/misc)
     ('bdd', 'Bdd'), ('hamming', 'Hamming'), ('sieve', 'Sieve'), ('sorts', 'Sorts'),
 ]

@@ -2903,7 +2903,7 @@ structure Main =
               (Twos, [10]),
               (Abs, [~10]),
               (Fact, [12]),
-              (GCD, [123456789,98765])]
+              (GCD, [1234,987])]
 
       val doit =
          fn size =>

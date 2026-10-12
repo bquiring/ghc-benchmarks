@@ -57,9 +57,10 @@ string-concat, vector-*, md5, checksum, imp-for, tailfib, even-odd, fib).
 
 Translation rules, so the Haskell versions measure the same program:
 
-- SML is strict: use strict fields and bang patterns where the SML
-  evaluates eagerly, so laziness does not change the algorithm (keep lazy
-  only where the SML uses explicit delays, e.g. streams).
+- Lazy Haskell, no strictness annotations (the user, 2026-10-12: "make
+  them lazy to evaluate the strictness analysis"); see sml/README.md.
+  Where laziness leaks badly the input shrinks rather than adding
+  strictness (DLXSimulator: GCD of 1234 and 987, peak 0.9 GB).
 - `ref` -> `IORef`/`STRef`; arrays -> `Data.Array`/`Data.Array.ST`;
   exceptions used for control flow -> `Maybe`/`Either` or `Control.Exception`
   where the SML relies on unwinding.
