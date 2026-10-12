@@ -44,6 +44,7 @@ smith-normal-form	smlbench:exe:smith-normal-form	EXE
 tsp	smlbench:exe:tsp	EXE
 count-graphs	smlbench:exe:count-graphs	EXE
 zern	smlbench:exe:zern	EXE
+tyan	smlbench:exe:tyan	EXE
 bdd	smlbench:exe:bdd	EXE
 hamming	smlbench:exe:hamming	EXE
 sieve	smlbench:exe:sieve	EXE

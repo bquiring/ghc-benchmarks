@@ -190,6 +190,10 @@ executable zern
   import:  prog
   main-is: Zern.hs
 
+executable tyan
+  import:  prog
+  main-is: Tyan.hs
+
 executable bdd
   import:  prog
   main-is: Bdd.hs

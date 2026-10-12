@@ -22,7 +22,7 @@ PROGRAMS = [
     ('register-allocator', 'RegisterAllocator'), ('dpll-sat', 'DpllSat'),
     # from-mlton/ (MLton's benchmarks)
     ('zebra', 'Zebra'), ('logic', 'Logic'), ('smith-normal-form', 'SmithNormalForm'),
-    ('tsp', 'Tsp'), ('count-graphs', 'CountGraphs'), ('zern', 'Zern'),
+    ('tsp', 'Tsp'), ('count-graphs', 'CountGraphs'), ('zern', 'Zern'), ('tyan', 'Tyan'),
     # ocaml/ (OCaml testsuite tests/misc)
     ('bdd', 'Bdd'), ('hamming', 'Hamming'), ('sieve', 'Sieve'), ('sorts', 'Sorts'),
 ]
