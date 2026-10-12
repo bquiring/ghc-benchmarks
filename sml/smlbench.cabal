@@ -185,3 +185,7 @@ executable tsp
 executable count-graphs
   import:  prog
   main-is: CountGraphs.hs
+
+executable zern
+  import:  prog
+  main-is: Zern.hs

@@ -29,6 +29,6 @@ for x in Defunctionalization:defunctionalization ReturnedClosures:returned-closu
 done
 # from-mlton/: references built from tools/mlton/<name>.sml (MLton's own
 # programs with a driver that prints a result), compared at N = 1
-for x in Zebra:zebra Logic:logic SmithNormalForm:smith-normal-form Tsp:tsp CountGraphs:count-graphs; do
+for x in Zebra:zebra Logic:logic SmithNormalForm:smith-normal-form Tsp:tsp CountGraphs:count-graphs Zern:zern; do
   tools/check.sh ${x%%:*} ${x#*:} 1 $PWD/tools/mlton/${x#*:}.mlton
 done
