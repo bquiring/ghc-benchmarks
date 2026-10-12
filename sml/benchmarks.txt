@@ -17,3 +17,4 @@ json-decode	smlbench:exe:json-decode	EXE
 cps-convert	smlbench:exe:cps-convert	EXE
 knuth-bendix	smlbench:exe:knuth-bendix	EXE
 raytracer	smlbench:exe:raytracer	EXE
+ratio-regions	smlbench:exe:ratio-regions	EXE

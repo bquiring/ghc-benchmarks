@@ -81,3 +81,7 @@ executable knuth-bendix
 executable raytracer
   import:  prog
   main-is: Raytracer.hs
+
+executable ratio-regions
+  import:  prog
+  main-is: RatioRegions.hs
