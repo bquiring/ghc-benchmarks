@@ -1,0 +1,4 @@
+*.ocaml
+*.cmi
+*.cmx
+*.o

@@ -189,3 +189,19 @@ executable count-graphs
 executable zern
   import:  prog
   main-is: Zern.hs
+
+executable bdd
+  import:  prog
+  main-is: Bdd.hs
+
+executable hamming
+  import:  prog
+  main-is: Hamming.hs
+
+executable sieve
+  import:  prog
+  main-is: Sieve.hs
+
+executable sorts
+  import:  prog
+  main-is: Sorts.hs

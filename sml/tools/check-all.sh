@@ -32,3 +32,12 @@ done
 for x in Zebra:zebra Logic:logic SmithNormalForm:smith-normal-form Tsp:tsp CountGraphs:count-graphs Zern:zern; do
   tools/check.sh ${x%%:*} ${x#*:} 1 $PWD/tools/mlton/${x#*:}.mlton
 done
+# ocaml/: OCaml testsuite programs (tests/misc), references built from
+# tools/ocaml/*.ml with ocamlopt, compared at N = 1
+eval $(opam env --switch=4.14.0 2>/dev/null)
+for f in tools/ocaml/*.ml; do
+  [ "${f%.ml}.ocaml" -nt "$f" ] || ocamlopt -O3 -o "${f%.ml}.ocaml" "$f" 2>/dev/null || ocamlopt -o "${f%.ml}.ocaml" "$f"
+done
+for x in Bdd:bdd Hamming:hamming Sieve:sieve Sorts:sorts; do
+  tools/check.sh ${x%%:*} ${x#*:} 1 $PWD/tools/ocaml/${x#*:}.ocaml OCaml
+done

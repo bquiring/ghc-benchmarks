@@ -23,6 +23,8 @@ PROGRAMS = [
     # from-mlton/ (MLton's benchmarks)
     ('zebra', 'Zebra'), ('logic', 'Logic'), ('smith-normal-form', 'SmithNormalForm'),
     ('tsp', 'Tsp'), ('count-graphs', 'CountGraphs'), ('zern', 'Zern'),
+    # ocaml/ (OCaml testsuite tests/misc)
+    ('bdd', 'Bdd'), ('hamming', 'Hamming'), ('sieve', 'Sieve'), ('sorts', 'Sorts'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

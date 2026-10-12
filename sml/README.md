@@ -2,7 +2,8 @@
 
 Translations of the benchmarks in the user's 3CPS test suite
 (`~/projects/3cps/3cps-main/test/programs/`): first `llvm-sml/` and
-`higher-order/`, later the MLton and OCaml examples (see ../NEXT.md).
+`higher-order/`; then MLton's benchmarks (`from-mlton/`) and programs from
+the OCaml testsuite (`tests/misc`); see ../NEXT.md.
 
 A benchmark group like `large/`: build with
 `BENCH_GROUP=sml ../build.sh NAME "OPTS"` from the repository root, time with
@@ -32,7 +33,10 @@ Translation rules (so the Haskell measures the same program):
 - Each program prints what its SML original prints; where the SML prints
   per round, the translation prints one round's lines (if every round's
   are the same).  `tools/check-all.sh` compares the outputs with the MLton
-  executables' (`*.mlton.out` in the 3cps suite).
+  executables' (`*.mlton.out` in the 3cps suite; for programs whose
+  original prints nothing, MLton builds of `tools/mlton/*.sml`, the
+  original plus a driver that prints a result) and, for the OCaml
+  testsuite programs, with ocamlopt builds of `tools/ocaml/*.ml`.
 
 Programs and their defaults are listed in `tools/gen.py`, which writes
 `smlbench.cabal` and `benchmarks.txt`.
