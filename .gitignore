@@ -10,3 +10,4 @@
 /*.project
 !/cabal.project
 store-quarantine/
+/tools/out/

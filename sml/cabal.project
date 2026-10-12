@@ -1,0 +1,4 @@
+-- Translations of the 3CPS SML benchmarks (and later MLton/OCaml ones) to
+-- Haskell.  Only boot packages, so nothing is built from Hackage.
+packages: .
+with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc

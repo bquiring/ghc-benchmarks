@@ -1,0 +1,7 @@
+# Build and check outputs
+/dist-*/
+/tools/out/
+/results/
+/out/
+/*.project
+!/cabal.project

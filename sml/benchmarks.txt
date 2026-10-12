@@ -1,0 +1,12 @@
+# name	exe	command: each prints what its SML original prints (pass/fail lines)
+ack	smlbench:exe:ack	EXE
+tak	smlbench:exe:tak	EXE
+cpstak	smlbench:exe:cpstak	EXE
+y-fact	smlbench:exe:y-fact	EXE
+nqueens	smlbench:exe:nqueens	EXE
+mandelbrot	smlbench:exe:mandelbrot	EXE
+quicksort	smlbench:exe:quicksort	EXE
+filter	smlbench:exe:filter	EXE
+derivative	smlbench:exe:derivative	EXE
+streams	smlbench:exe:streams	EXE
+tardis	smlbench:exe:tardis	EXE
