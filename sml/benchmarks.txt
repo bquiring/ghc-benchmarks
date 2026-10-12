@@ -45,6 +45,7 @@ tsp	smlbench:exe:tsp	EXE
 count-graphs	smlbench:exe:count-graphs	EXE
 zern	smlbench:exe:zern	EXE
 tyan	smlbench:exe:tyan	EXE
+barnes-hut	smlbench:exe:barnes-hut	EXE
 bdd	smlbench:exe:bdd	EXE
 hamming	smlbench:exe:hamming	EXE
 sieve	smlbench:exe:sieve	EXE

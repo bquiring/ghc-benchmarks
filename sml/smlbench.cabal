@@ -194,6 +194,10 @@ executable tyan
   import:  prog
   main-is: Tyan.hs
 
+executable barnes-hut
+  import:  prog
+  main-is: BarnesHut.hs
+
 executable bdd
   import:  prog
   main-is: Bdd.hs
