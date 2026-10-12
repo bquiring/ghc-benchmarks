@@ -9,3 +9,4 @@
 /store/
 /*.project
 !/cabal.project
+store-quarantine/
