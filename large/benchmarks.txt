@@ -3,7 +3,11 @@
 shellcheck	ShellCheck:exe:shellcheck	EXE --shell=sh --format=gcc GHC_TREE/configure	ok=0,1
 hledger	hledger:exe:hledger	EXE -f inputs/journal.journal balance --tree --monthly --value=then,$ -o out/hledger.txt
 dhall	dhall:exe:dhall	env XDG_CACHE_HOME=/nonexistent/cache EXE type --file dhall-1.42.3/dhall-lang/Prelude/package.dhall
-pandoc	pandoc-cli:exe:pandoc	EXE -f rst -t html5 --standalone --metadata title=guide -o out/pandoc.html inputs/guide.rst
+# pandoc: set aside 2026-10-11 (user: "move on unless we need that in particular"):
+# under early-ulsl, Text.Pandoc.Readers.LaTeX runs out of memory (8 GB),
+# probably the data-splitting blowup of large parser modules (ghc-webs
+# WEBS-BUGS.md); builds and runs fine without webs.
+#pandoc	pandoc-cli:exe:pandoc	EXE -f rst -t html5 --standalone --metadata title=guide -o out/pandoc.html inputs/guide.rst
 # set aside: Agda 2.8.0.2 does not build with the GHC 9.15 snapshot (an ambiguous Bifunctor in
 # Agda.TypeChecking.Generalize; the plain compiler panics in GHC.Tc.Instance.Family on another module)
 #agda	Agda:exe:agda	EXE --ignore-interfaces --no-libraries -i agda-stdlib/src agda-stdlib/src/Data/Nat/Properties.agda
