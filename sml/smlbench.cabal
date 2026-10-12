@@ -61,3 +61,15 @@ executable interpreter
 executable parser-comb
   import:  prog
   main-is: ParserComb.hs
+
+executable twenty-four
+  import:  prog
+  main-is: TwentyFour.hs
+
+executable json-decode
+  import:  prog
+  main-is: JsonDecode.hs
+
+executable cps-convert
+  import:  prog
+  main-is: CpsConvert.hs
