@@ -13,6 +13,6 @@ for x in "Ack ack 1" "Tak tak 1" "Cpstak cpstak 1" "YFact y-fact 100000" "Nqueen
          "TwentyFour twenty-four 10000" "JsonDecode json-decode 100001" "CpsConvert cps-convert 100000" \
          "KnuthBendix knuth-bendix 2" "Raytracer raytracer 1" \
          "RatioRegions ratio-regions 1 $PWD/tools/mlton/ratio-regions.mlton" \
-         "KCfa k-cfa 10001"; do
+         "KCfa k-cfa 10001" "McRay mc-ray 1"; do
   tools/check.sh $x
 done

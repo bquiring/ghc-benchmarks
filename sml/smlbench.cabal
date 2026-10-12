@@ -89,3 +89,7 @@ executable ratio-regions
 executable k-cfa
   import:  prog
   main-is: KCfa.hs
+
+executable mc-ray
+  import:  prog
+  main-is: McRay.hs
