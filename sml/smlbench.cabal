@@ -198,6 +198,10 @@ executable barnes-hut
   import:  prog
   main-is: BarnesHut.hs
 
+executable vliw
+  import:  prog
+  main-is: Vliw.hs
+
 executable bdd
   import:  prog
   main-is: Bdd.hs

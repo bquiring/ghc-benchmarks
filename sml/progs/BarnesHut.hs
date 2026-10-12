@@ -348,7 +348,7 @@ go output bodies tnow0 tstop dtime eps tol rmin' rsize' = loop 0 tnow0
 smlReal :: Double -> String
 smlReal v
   | v < 0 = '~' : smlReal (negate v)
-  | v == 0 = "0.0"
+  | v == 0 = "0"
   | e < -4 || e >= 12 = let (m, ex) = sci in m ++ "E" ++ (if ex < 0 then '~' : show (negate ex) else show ex)
   | otherwise = trim (showFFloat (Just (11 - e)) v "")
   where

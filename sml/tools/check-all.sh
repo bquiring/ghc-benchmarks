@@ -32,6 +32,8 @@ done
 for x in Zebra:zebra Logic:logic SmithNormalForm:smith-normal-form Tsp:tsp CountGraphs:count-graphs Zern:zern Tyan:tyan BarnesHut:barnes-hut; do
   tools/check.sh ${x%%:*} ${x#*:} 1 $PWD/tools/mlton/${x#*:}.mlton
 done
+# vliw reads tools/mlton/DATA, so its reference runs from there
+tools/check.sh Vliw vliw 1 $PWD/tools/mlton/vliw-run.sh
 # ocaml/: OCaml testsuite programs (tests/misc), references built from
 # tools/ocaml/*.ml with ocamlopt, compared at N = 1
 eval $(opam env --switch=4.14.0 2>/dev/null)
