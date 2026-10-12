@@ -2,10 +2,20 @@
 
 Agreed with the user on 2026-10-11.  Priority order:
 
-1. Finish the current large programs (`large/`: ShellCheck, hledger, dhall,
-   pandoc; and the GHC self-host) compiling cleanly under webs.
-2. Translate the smaller SML benchmarks to Haskell (section 2 below).
-3. Then the other large Hackage programs (section 1 below).
+1. Finish the current large programs (`large/`: ShellCheck, hledger, dhall;
+   pandoc set aside) -- built and timed (ghc-webs WEBS-EXPERIMENTS.md §18).
+2. Translate the 3CPS SML benchmarks to Haskell: `llvm-sml/` and
+   `higher-order/` (section 2) -- in progress in `sml/`.
+3. Then the OCaml and MLton examples (section 2, Priority B, and section 3).
+4. Then the other large programs: cabal-install, Futhark, PureScript, Koka
+   (section 1).
+
+The user also wants MLton's (and OCaml's) time, instructions and
+allocation for the same programs, next to GHC's: compile the SML originals
+with MLton (installed: ~/lib/mlton/build/bin/mlton; allocation from
+`@MLton gc-summary --`) and the OCaml ones with ocamlopt 4.14 (opam;
+allocation from OCAMLRUNPARAM=v=0x400), with the same iteration counts as
+the Haskell translations, measured like time.py (perf stat, pinned CPU).
 
 ## 1. More Hackage programs (a third group)
 
