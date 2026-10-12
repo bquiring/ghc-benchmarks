@@ -6,7 +6,7 @@ PROGRAMS = [
     ('ack', 'Ack'), ('tak', 'Tak'), ('cpstak', 'Cpstak'), ('y-fact', 'YFact'),
     ('nqueens', 'Nqueens'), ('mandelbrot', 'Mandelbrot'), ('quicksort', 'Quicksort'),
     ('filter', 'Filter'), ('derivative', 'Derivative'), ('streams', 'Streams'),
-    ('tardis', 'Tardis'),
+    ('tardis', 'Tardis'), ('interpreter', 'Interpreter'), ('parser-comb', 'ParserComb'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

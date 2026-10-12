@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- quicksort.sml (3cps test/programs/llvm-sml): list quicksort on three
 -- inputs (15, 100 and 1000 numbers), 1000 times.
 module Main (main) where

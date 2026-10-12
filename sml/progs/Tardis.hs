@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- tardis.sml (3cps test/programs/llvm-sml; translated to SML by Skye Soss
 -- from the Haskell tardis package): scoring a bowling game with a monad
 -- that has forwards- and backwards-travelling state, 10000 times.

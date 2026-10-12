@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- y-fact.sml (3cps test/programs/llvm-sml): factorial through a "Y"
 -- combinator.  The SML loops 100000 times itself.
 module Main (main) where

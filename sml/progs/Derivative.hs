@@ -1,4 +1,4 @@
-{-# LANGUAGE BangPatterns #-}
+{-# LANGUAGE BangPatterns, Strict #-}
 -- derivative.sml (3cps test/programs/llvm-sml), from the Larceny DERIV
 -- benchmark: symbolic differentiation, 10000 times.  Like the SML, each
 -- round also makes a few calls that raise (and are caught, printing
@@ -53,7 +53,7 @@ test ans e = if equal ans (deriv e) then "pass" else "fail"
 
 -- Evaluate; Nothing if it raised (SML's  e handle _ => ...)
 attempt :: a -> IO (Maybe a)
-attempt x = either (\(SomeException _) -> Nothing) Just <$> try (evaluate x)
+attempt ~x = either (\(SomeException _) -> Nothing) Just <$> try (evaluate x)
 
 -- The lines one round prints
 doit :: Int -> IO [String]

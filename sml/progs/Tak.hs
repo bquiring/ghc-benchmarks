@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- tak.sml (3cps test/programs/llvm-sml): the Takeuchi function.
 module Main (main) where
 

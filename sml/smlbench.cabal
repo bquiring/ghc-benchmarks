@@ -53,3 +53,11 @@ executable streams
 executable tardis
   import:  prog
   main-is: Tardis.hs
+
+executable interpreter
+  import:  prog
+  main-is: Interpreter.hs
+
+executable parser-comb
+  import:  prog
+  main-is: ParserComb.hs

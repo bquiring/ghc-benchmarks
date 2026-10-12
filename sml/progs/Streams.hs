@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- streams.sml (3cps test/programs/llvm-sml): pull streams (a state and a
 -- step function) and push streams (continuations), zipped together,
 -- 100000 times.  SML's tuple-argument functions are curried here.

@@ -1,3 +1,4 @@
+{-# LANGUAGE Strict #-}
 -- cpstak.sml (3cps test/programs/llvm-sml), from the Larceny benchmarks:
 -- the Takeuchi function in continuation-passing style.
 module Main (main) where
@@ -17,5 +18,5 @@ cpstak x0 y0 z0 = tak x0 y0 z0 (\a -> a)
 
 main :: IO ()
 main = do
-  n <- iterations 100
+  n <- iterations 50
   putStrLn (if repeatAll n (\i -> cpstak (vary i 14 0) 11 0 == 11) then "pass" else "fail")

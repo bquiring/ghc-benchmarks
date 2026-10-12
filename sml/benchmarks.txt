@@ -10,3 +10,5 @@ filter	smlbench:exe:filter	EXE
 derivative	smlbench:exe:derivative	EXE
 streams	smlbench:exe:streams	EXE
 tardis	smlbench:exe:tardis	EXE
+interpreter	smlbench:exe:interpreter	EXE
+parser-comb	smlbench:exe:parser-comb	EXE
