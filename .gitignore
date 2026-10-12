@@ -10,4 +10,4 @@
 /*.project
 !/cabal.project
 store-quarantine/
-/tools/out/
+__pycache__/
