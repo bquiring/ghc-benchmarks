@@ -31,3 +31,10 @@ higher-order-list	smlbench:exe:higher-order-list	EXE
 church-encoding	smlbench:exe:church-encoding	EXE
 cps-explicit	smlbench:exe:cps-explicit	EXE
 callback-state	smlbench:exe:callback-state	EXE
+environment-sharing	smlbench:exe:environment-sharing	EXE
+polymorphic-ho	smlbench:exe:polymorphic-ho	EXE
+continuation-combinators	smlbench:exe:continuation-combinators	EXE
+applicative-functor	smlbench:exe:applicative-functor	EXE
+tree-traversal-ho	smlbench:exe:tree-traversal-ho	EXE
+register-allocator	smlbench:exe:register-allocator	EXE
+dpll-sat	smlbench:exe:dpll-sat	EXE

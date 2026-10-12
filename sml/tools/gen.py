@@ -16,7 +16,10 @@ PROGRAMS = [
     ('tree-fold-ho', 'TreeFoldHo'), ('curry-uncurry', 'CurryUncurry'),
     ('closure-capture', 'ClosureCapture'), ('higher-order-list', 'HigherOrderList'),
     ('church-encoding', 'ChurchEncoding'), ('cps-explicit', 'CpsExplicit'),
-    ('callback-state', 'CallbackState'),
+    ('callback-state', 'CallbackState'), ('environment-sharing', 'EnvironmentSharing'),
+    ('polymorphic-ho', 'PolymorphicHo'), ('continuation-combinators', 'ContinuationCombinators'),
+    ('applicative-functor', 'ApplicativeFunctor'), ('tree-traversal-ho', 'TreeTraversalHo'),
+    ('register-allocator', 'RegisterAllocator'), ('dpll-sat', 'DpllSat'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

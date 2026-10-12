@@ -137,3 +137,31 @@ executable cps-explicit
 executable callback-state
   import:  prog
   main-is: CallbackState.hs
+
+executable environment-sharing
+  import:  prog
+  main-is: EnvironmentSharing.hs
+
+executable polymorphic-ho
+  import:  prog
+  main-is: PolymorphicHo.hs
+
+executable continuation-combinators
+  import:  prog
+  main-is: ContinuationCombinators.hs
+
+executable applicative-functor
+  import:  prog
+  main-is: ApplicativeFunctor.hs
+
+executable tree-traversal-ho
+  import:  prog
+  main-is: TreeTraversalHo.hs
+
+executable register-allocator
+  import:  prog
+  main-is: RegisterAllocator.hs
+
+executable dpll-sat
+  import:  prog
+  main-is: DpllSat.hs

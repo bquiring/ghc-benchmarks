@@ -21,6 +21,9 @@ for x in Defunctionalization:defunctionalization ReturnedClosures:returned-closu
          FunctionComposition:function-composition MutualRecursionHo:mutual-recursion-ho \
          TreeFoldHo:tree-fold-ho CurryUncurry:curry-uncurry ClosureCapture:closure-capture \
          HigherOrderList:higher-order-list ChurchEncoding:church-encoding CpsExplicit:cps-explicit \
-         CallbackState:callback-state; do
+         CallbackState:callback-state EnvironmentSharing:environment-sharing \
+         PolymorphicHo:polymorphic-ho ContinuationCombinators:continuation-combinators \
+         ApplicativeFunctor:applicative-functor TreeTraversalHo:tree-traversal-ho \
+         RegisterAllocator:register-allocator DpllSat:dpll-sat; do
   tools/check.sh ${x%%:*} ${x#*:} "" $PWD/tools/mlton/ho/${x#*:}.mlton
 done
