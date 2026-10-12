@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- tardis.sml (3cps test/programs/llvm-sml; translated to SML by Skye Soss
 -- from the Haskell tardis package): scoring a bowling game with a monad
 -- that has forwards- and backwards-travelling state, 10000 times.
@@ -51,8 +50,8 @@ fix f (bw, fw) = do
   writeSTRef r (Just x)
   return (x, bw', fw')
 
-data Frame = Strike | Spare !Int | Frame !Int !Int
-data LFrame = LStrike !Int !Int | LSpare !Int !Int | LFrame !Int !Int
+data Frame = Strike | Spare Int | Frame Int Int
+data LFrame = LStrike Int Int | LSpare Int Int | LFrame Int Int
 data Game = Game [Frame] LFrame
 
 lframeScore :: LFrame -> Int

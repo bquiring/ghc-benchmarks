@@ -12,9 +12,11 @@ like the SML original, and the timing harness checks the outputs agree.
 
 Translation rules (so the Haskell measures the same program):
 
-- The same algorithm and data structures as the SML, function by function.
-  SML is strict: strict arithmetic, and strict fields and bang patterns
-  where the SML evaluates eagerly; laziness only where the SML delays.
+- The same algorithm and data structures as the SML, function by function,
+  written as ordinary lazy Haskell: no strictness annotations, so the
+  compiler's strictness analysis (GHC's and the webs pass's) has to find
+  what SML evaluates eagerly.  Only the harness forces each round's result
+  completely (`Repeat.loopLast`), so no round's work is skipped.
 - Each program repeats its work N times (default chosen for ~1-1.5 s with
   the base build; the first argument overrides it).  Each iteration's input
   goes through `Repeat.vary`, which the optimiser cannot see through, so the
@@ -25,11 +27,10 @@ Translation rules (so the Haskell measures the same program):
   thunks as `ST` actions), arrays -> `Data.Array`; exceptions as Haskell
   exceptions where the SML raises and handles them.  Only base,
   containers, array and deepseq.
-- Each program prints exactly what its SML original prints.
-  `tools/check.sh Name sml-name [N]` compares the output with the MLton
-  executable's (`*.mlton.out` in the 3cps suite); programs repeated beyond
-  the SML's own loop are compared at N = 1 (see check.sh's callers in
-  tools/check-all.sh).
+- Each program prints what its SML original prints; where the SML prints
+  per round, the translation prints one round's lines (if every round's
+  are the same).  `tools/check-all.sh` compares the outputs with the MLton
+  executables' (`*.mlton.out` in the 3cps suite).
 
 Programs and their defaults are listed in `tools/gen.py`, which writes
 `smlbench.cabal` and `benchmarks.txt`.

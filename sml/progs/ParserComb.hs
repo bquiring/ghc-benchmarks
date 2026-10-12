@@ -1,14 +1,12 @@
-{-# LANGUAGE Strict #-}
 -- parser-comb.sml (3cps test/programs/llvm-sml; John Reppy): a small
 -- expression parser built from a stripped-down version of the SML/NJ
 -- Library's parser combinators (heavy use of higher-order functions); 8
--- parses per round, 10000 rounds, each printing pass or fail.
+-- parses per round, each printing pass or fail, repeated.
 --
 -- A stream is the remaining input (scanString's substring); a reader
 -- (StringCvt.reader) takes one character.
 module Main (main) where
 
-import Control.Monad (forM_)
 import Data.Char (isAlpha, isAlphaNum, isDigit, isSpace)
 import Repeat
 
@@ -146,7 +144,10 @@ doit i =
              _ -> "fail"
   in [r1, r2, r3, r4, r5, r6, r7, r8]
 
+-- Each round prints what the SML's round prints; the output is one round's
+-- lines, if every round's are the same
 main :: IO ()
 main = do
-  n <- iterations 250000
-  forM_ [1 .. n] $ \i -> mapM_ putStrLn (doit i)
+  n <- iterations 400000
+  let first = doit 1
+  mapM_ putStrLn (if all (\i -> doit i == first) [2 .. n] then first else ["fail: rounds differ"])

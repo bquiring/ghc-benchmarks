@@ -1,12 +1,10 @@
-{-# LANGUAGE BangPatterns, Strict #-}
 -- derivative.sml (3cps test/programs/llvm-sml), from the Larceny DERIV
--- benchmark: symbolic differentiation, 10000 times.  Like the SML, each
--- round also makes a few calls that raise (and are caught, printing
--- nothing), and prints the outcome of its last test: "pass" per round.
+-- benchmark: symbolic differentiation, repeated.  Like the SML, each round
+-- also makes a few calls that raise (and are caught, printing nothing),
+-- and ends with a test that prints pass or fail.
 module Main (main) where
 
 import Control.Exception
-import Control.Monad (forM_)
 import Repeat
 
 data UnequalLengths = UnequalLengths deriving Show
@@ -15,14 +13,14 @@ instance Exception UnequalLengths
 data NoDerivation = NoDerivation deriving Show
 instance Exception NoDerivation
 
--- SML's ListPair.foldlEq: strict in the accumulator, raises on unequal lengths
+-- SML's ListPair.foldlEq: raises on unequal lengths
 foldlEq :: (a -> b -> c -> c) -> c -> [a] -> [b] -> c
 foldlEq f ini l1 l2 = foldf l1 l2 ini
-  where foldf (x : xs) (y : ys) !accum = foldf xs ys (f x y accum)
+  where foldf (x : xs) (y : ys) accum = foldf xs ys (f x y accum)
         foldf [] [] accum = accum
         foldf _ _ _ = throw UnequalLengths
 
-data Expr = Add [Expr] | Sub [Expr] | Mul [Expr] | Div [Expr] | Num !Int | X
+data Expr = Add [Expr] | Sub [Expr] | Mul [Expr] | Div [Expr] | Num Int | X
 
 equal :: Expr -> Expr -> Bool
 equal X X = True
@@ -81,7 +79,13 @@ doit i = do
   t3 <- evaluate (test ans ex)
   return (maybe [] pure t1 ++ maybe [] pure t2 ++ [t3])
 
+-- Each round prints what the SML's round prints; the output is one round's
+-- lines, if every round's are the same
 main :: IO ()
 main = do
   n <- iterations 1500000
-  forM_ [1 .. n] $ \i -> doit i >>= mapM_ putStrLn
+  first <- doit 1
+  same <- allM (\i -> (== first) <$> doit i) [2 .. n]
+  mapM_ putStrLn (if same then first else ["fail: rounds differ"])
+  where allM _ [] = return True
+        allM p (x : xs) = p x >>= \b -> if b then allM p xs else return False

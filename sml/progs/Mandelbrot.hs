@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- mandelbrot.sml (3cps test/programs/llvm-sml; John Reppy, from the SML/NJ
 -- benchmark suite): total iteration count over a 1024x1024 grid.
 module Main (main) where
@@ -38,7 +37,7 @@ compute sz maxCount = loop1 0 0
 
 main :: IO ()
 main = do
-  n <- iterations 60
+  n <- iterations 20
   let results = [ compute (vary i 1024 0) (8 * 1024) | i <- [1 .. n] ]
   case filter (/= 4274066) results of
     []      -> putStrLn "pass"

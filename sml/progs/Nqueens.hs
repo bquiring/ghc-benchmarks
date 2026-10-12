@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- nqueens.sml (3cps test/programs/llvm-sml): count the solutions of the
 -- n-queens problem, with the SML's own list functions.
 module Main (main) where

@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- filter.sml (3cps test/programs/llvm-sml): list filter with a predicate
 -- argument, on 6 booleans and 1000 numbers, 10000 times.
 module Main (main) where

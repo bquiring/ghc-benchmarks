@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- ack.sml (3cps test/programs/llvm-sml), from the Larceny benchmarks:
 -- Ackermann's function.
 module Main (main) where

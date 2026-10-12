@@ -1,4 +1,3 @@
-{-# LANGUAGE Strict #-}
 -- interpreter.sml (3cps test/programs/llvm-sml): an interpreter for a
 -- small language with closures, letrec and a store, run on three programs
 -- 10000 times.
@@ -173,5 +172,6 @@ main = do
   let R r6 r7 r8 = loopLastR n
       loopLastR k = go 1
         where go i = let r = R (interpret (vary i prog6 prog6)) (interpret (vary i prog7 prog7)) (interpret (vary i prog8 prog8))
-                     in if i >= k then r else r `seq` go (i + 1)
+                     in if i >= k then r else forceR r `seq` go (i + 1)
+      forceR (R a b c) = a `seq` b `seq` c `seq` ()
   mapM_ putStrLn [check r6 (-1), check r7 42, check r8 1]
