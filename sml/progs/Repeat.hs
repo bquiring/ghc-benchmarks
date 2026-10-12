@@ -21,11 +21,12 @@ iterations dflt = do
   as <- getArgs
   return (case as of { (a : _) -> read a; [] -> dflt })
 
--- | Compute @f i@ for i = 1..n, each fully evaluated, and return the last
+-- | Compute @f i@ for i = 1..n, each fully evaluated (the last too), and
+-- return the last
 loopLast :: NFData a => Int -> (Int -> a) -> a
 loopLast n f = go 1
   where go i = let r = f i
-               in if i >= n then r else r `deepseq` go (i + 1)
+               in r `deepseq` (if i >= n then r else go (i + 1))
 
 -- | Run @f i@ for i = 1..n; True if every run satisfied the check
 repeatAll :: Int -> (Int -> Bool) -> Bool

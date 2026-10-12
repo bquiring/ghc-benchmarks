@@ -77,3 +77,7 @@ executable cps-convert
 executable knuth-bendix
   import:  prog
   main-is: KnuthBendix.hs
+
+executable raytracer
+  import:  prog
+  main-is: Raytracer.hs
