@@ -42,3 +42,4 @@ zebra	smlbench:exe:zebra	EXE
 logic	smlbench:exe:logic	EXE
 smith-normal-form	smlbench:exe:smith-normal-form	EXE
 tsp	smlbench:exe:tsp	EXE
+count-graphs	smlbench:exe:count-graphs	EXE

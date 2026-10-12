@@ -22,7 +22,7 @@ PROGRAMS = [
     ('register-allocator', 'RegisterAllocator'), ('dpll-sat', 'DpllSat'),
     # from-mlton/ (MLton's benchmarks)
     ('zebra', 'Zebra'), ('logic', 'Logic'), ('smith-normal-form', 'SmithNormalForm'),
-    ('tsp', 'Tsp'),
+    ('tsp', 'Tsp'), ('count-graphs', 'CountGraphs'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

@@ -181,3 +181,7 @@ executable smith-normal-form
 executable tsp
   import:  prog
   main-is: Tsp.hs
+
+executable count-graphs
+  import:  prog
+  main-is: CountGraphs.hs
