@@ -1,0 +1,10 @@
+cabal-version: 2.4
+name:          solve-me
+version:       0
+-- The cabal benchmark's goal: a build plan for the dependencies of the
+-- large Hackage programs at once (cabal build --dry-run)
+library
+  default-language: Haskell2010
+  build-depends: base, pandoc, hledger-lib, dhall, ShellCheck, Agda, aeson, lens, servant-server,
+                 warp, http-client-tls, criterion, hspec, QuickCheck, megaparsec, persistent,
+                 stm-containers, vector-algorithms, unordered-containers, conduit-extra

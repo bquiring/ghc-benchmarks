@@ -59,6 +59,10 @@ def run_once(config, name, exe, cmd, cpu, timeout):
                 shutil.rmtree(os.path.join(HERE, a))
             else:
                 os.remove(os.path.join(HERE, a))
+        if a.startswith('out/'):
+            for f in os.listdir(os.path.join(HERE, 'out')):
+                if f.startswith(a[4:] + '.') and os.path.isfile(os.path.join(HERE, 'out', f)):
+                    os.remove(os.path.join(HERE, 'out', f))
     fd, perf_out = tempfile.mkstemp(suffix='.perf'); os.close(fd)
     fd, rts_out = tempfile.mkstemp(suffix='.rts'); os.close(fd)
     full = (['taskset', '-c', str(cpu), 'perf', 'stat', '-x,', '-o', perf_out, '-e', 'instructions:u']
@@ -71,8 +75,10 @@ def run_once(config, name, exe, cmd, cpu, timeout):
         return {'error': 'exit %d: %s' % (r.returncode, (r.stdout + r.stderr)[-300:])}
     # A run must have written its output files (a program that refuses its
     # RTS options, for instance, stops at once and exits 0)
+    # (or files named after it: futhark -o out/X writes out/X.c, out/X.h, ...)
     for a in argv:
-        if a.startswith('out/') and not os.path.exists(os.path.join(HERE, a)):
+        if a.startswith('out/') and not os.path.exists(os.path.join(HERE, a)) \
+                and not any(f.startswith(a[4:] + '.') for f in os.listdir(os.path.join(HERE, 'out'))):
             return {'error': 'no output %s: %s' % (a, (r.stdout + r.stderr)[-300:])}
     if 'RTS options are disabled' in r.stderr:
         return {'error': 'RTS options disabled (link with -rtsopts)'}

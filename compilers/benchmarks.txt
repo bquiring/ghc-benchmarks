@@ -1,0 +1,14 @@
+# The compilers group (BENCH_GROUP=compilers): name<TAB>package:exe:name<TAB>command, run in this directory<TAB>optional ok=EXIT,CODES
+# cabal: plan solve-me's 319 dependencies (pandoc, dhall, ...) against the
+# local Hackage index (--dry-run: nothing is built; the store stays empty)
+cabal	cabal-install:exe:cabal	EXE --store-dir=inputs/cabal-solve/store build --dry-run --project-file=inputs/cabal-solve/cabal.project --builddir out/cabal all
+# futhark: compile Rodinia's myocyte (the suite's largest program) through the
+# GPU pipeline to OpenCL C (--library: writes .c/.h/.json, runs no C compiler);
+# -N1: the threaded RTS cannot start a thread per core under ulimit -v
+futhark	futhark:exe:futhark	EXE opencl --library -o out/futhark inputs/futhark-benchmarks/rodinia/myocyte/myocyte.fut +RTS -N1
+# purs: compile 53 libraries of the package set (331 modules) to JavaScript;
+# purs expands the glob itself
+purs	purescript:exe:purs	EXE compile --output out/purs 'inputs/purescript-libs/*/src/**/*.purs' +RTS -N1
+# koka: type-check and compile its standard library and samples (62 modules)
+# to JavaScript, so no C compiler runs; -j1 for a deterministic message order
+koka	koka:exe:koka	EXE -j1 --target=js -l --sharedir=koka-3.2.9 --builddir out/koka --include=koka-3.2.9/samples koka-3.2.9/samples/all.kk +RTS -N1

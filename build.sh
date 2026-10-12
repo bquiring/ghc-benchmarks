@@ -9,7 +9,8 @@
 # NAME.project (generated) imports cabal.project and sets them for
 # 'package *'; cabal hashes them into each package's id, so every
 # configuration gets its own builds.  The package store is store/ here, the
-# build directory dist-NAME/, the log results/NAME/build.log.  Dependencies
+# build directory dist-NAME/, the log results/NAME/build.log; extra cabal
+# flags (e.g. --keep-going) come from BENCH_CABAL_ARGS.  Dependencies
 # come from the local cabal cache (cabal --offline refuses cached
 # dependencies, so it is not used; nothing is downloaded while every pinned
 # version is cached: setup.sh).  Separate from nofib (ghc-webs/webs-bench/run-nofib.sh).
@@ -39,7 +40,7 @@ if [ -f "$NAME.extra" ]; then cat "$NAME.extra" >> "$NAME.project"; fi
 # cache: re-plan every time
 rm -rf "dist-$NAME/cache"
 exes=$(grep -v '^#' benchmarks.txt | awk -F'\t' 'NF >= 3 { print ($2 ~ /:/ ? $2 : "exe:" $2) }' | sort -u | tr '\n' ' ')
-cabal --store-dir="$STORE" build -j"${BENCH_JOBS:-4}" --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
+cabal --store-dir="$STORE" build -j"${BENCH_JOBS:-4}" ${BENCH_CABAL_ARGS:-} --project-file="$NAME.project" --builddir="dist-$NAME" $exes \
   > "results/$NAME/build.log" 2>&1
 status=$?
 echo "[$NAME] build exit code: $status" | tee "results/$NAME/exit-code"

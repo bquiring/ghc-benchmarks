@@ -15,6 +15,21 @@ Each benchmark is a Hackage executable run on a fixed input:
 (`benchmarks.txt` lists them; pandoc 2.19.2 is set aside: its cached
 dependencies do not build with GHC 9.15.)
 
+Other groups live in subdirectories with their own `setup.sh`,
+`benchmarks.txt` and `cabal.project`; select one with `BENCH_GROUP=DIR` for
+`build.sh` and `time.py`.  `large/` has ShellCheck, hledger and dhall;
+`compilers/` has four compilers written in Haskell, each compiling a fixed
+input (no C compiler runs):
+
+| benchmark | program               | input                                                    |
+|-----------|-----------------------|----------------------------------------------------------|
+| cabal     | cabal-install 3.18.1.0 | plan 319 dependencies against the local Hackage index (`--dry-run`) |
+| futhark   | Futhark 0.27.1        | Rodinia's myocyte, GPU pipeline to OpenCL C (`--library`) |
+| purs      | PureScript 0.15.15    | 53 libraries of the package set (331 modules) to JavaScript |
+| koka      | Koka 3.2.9            | its standard library and samples (62 modules) to JavaScript |
+
+Old packages are patched locally for mtl 2.3 and this GHC (`compilers/setup.sh`).
+
 ## Use
 
 ```

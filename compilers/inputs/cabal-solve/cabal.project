@@ -1,0 +1,5 @@
+-- The cabal benchmark: solve solve-me's dependencies against the local
+-- Hackage index as of the pinned index-state, with ghcup's GHC 9.10.1
+packages: /home/benjamin/projects/webs-hackage-bench/compilers/inputs/cabal-solve/
+with-compiler: /home/benjamin/.ghcup/bin/ghc-9.10.1
+index-state: hackage.haskell.org 2026-10-01T00:00:00Z
