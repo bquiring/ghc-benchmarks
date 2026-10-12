@@ -93,3 +93,47 @@ executable k-cfa
 executable mc-ray
   import:  prog
   main-is: McRay.hs
+
+executable defunctionalization
+  import:  prog
+  main-is: Defunctionalization.hs
+
+executable returned-closures
+  import:  prog
+  main-is: ReturnedClosures.hs
+
+executable function-composition
+  import:  prog
+  main-is: FunctionComposition.hs
+
+executable mutual-recursion-ho
+  import:  prog
+  main-is: MutualRecursionHo.hs
+
+executable tree-fold-ho
+  import:  prog
+  main-is: TreeFoldHo.hs
+
+executable curry-uncurry
+  import:  prog
+  main-is: CurryUncurry.hs
+
+executable closure-capture
+  import:  prog
+  main-is: ClosureCapture.hs
+
+executable higher-order-list
+  import:  prog
+  main-is: HigherOrderList.hs
+
+executable church-encoding
+  import:  prog
+  main-is: ChurchEncoding.hs
+
+executable cps-explicit
+  import:  prog
+  main-is: CpsExplicit.hs
+
+executable callback-state
+  import:  prog
+  main-is: CallbackState.hs

@@ -1,0 +1,4 @@
+*.mlton
+*.log
+*.out
+*.t

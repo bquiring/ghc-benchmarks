@@ -10,6 +10,13 @@ PROGRAMS = [
     ('twenty-four', 'TwentyFour'), ('json-decode', 'JsonDecode'), ('cps-convert', 'CpsConvert'),
     ('knuth-bendix', 'KnuthBendix'), ('raytracer', 'Raytracer'),
     ('ratio-regions', 'RatioRegions'), ('k-cfa', 'KCfa'), ('mc-ray', 'McRay'),
+    # higher-order/
+    ('defunctionalization', 'Defunctionalization'), ('returned-closures', 'ReturnedClosures'),
+    ('function-composition', 'FunctionComposition'), ('mutual-recursion-ho', 'MutualRecursionHo'),
+    ('tree-fold-ho', 'TreeFoldHo'), ('curry-uncurry', 'CurryUncurry'),
+    ('closure-capture', 'ClosureCapture'), ('higher-order-list', 'HigherOrderList'),
+    ('church-encoding', 'ChurchEncoding'), ('cps-explicit', 'CpsExplicit'),
+    ('callback-state', 'CallbackState'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

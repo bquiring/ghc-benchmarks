@@ -20,3 +20,14 @@ raytracer	smlbench:exe:raytracer	EXE
 ratio-regions	smlbench:exe:ratio-regions	EXE
 k-cfa	smlbench:exe:k-cfa	EXE
 mc-ray	smlbench:exe:mc-ray	EXE
+defunctionalization	smlbench:exe:defunctionalization	EXE
+returned-closures	smlbench:exe:returned-closures	EXE
+function-composition	smlbench:exe:function-composition	EXE
+mutual-recursion-ho	smlbench:exe:mutual-recursion-ho	EXE
+tree-fold-ho	smlbench:exe:tree-fold-ho	EXE
+curry-uncurry	smlbench:exe:curry-uncurry	EXE
+closure-capture	smlbench:exe:closure-capture	EXE
+higher-order-list	smlbench:exe:higher-order-list	EXE
+church-encoding	smlbench:exe:church-encoding	EXE
+cps-explicit	smlbench:exe:cps-explicit	EXE
+callback-state	smlbench:exe:callback-state	EXE

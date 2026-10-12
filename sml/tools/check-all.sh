@@ -3,7 +3,7 @@
 # own iteration counts
 cd /home/benjamin/projects/webs-hackage-bench/sml
 # MLton references built from tools/mlton/*.sml
-for f in tools/mlton/*.sml; do
+for f in tools/mlton/*.sml tools/mlton/ho/*.sml; do
   [ "${f%.sml}.mlton" -nt "$f" ] || ~/lib/mlton/build/bin/mlton -output "${f%.sml}.mlton" "$f"
 done
 for x in "Ack ack 1" "Tak tak 1" "Cpstak cpstak 1" "YFact y-fact 100000" "Nqueens nqueens 1" \
@@ -15,4 +15,12 @@ for x in "Ack ack 1" "Tak tak 1" "Cpstak cpstak 1" "YFact y-fact 100000" "Nqueen
          "RatioRegions ratio-regions 1 $PWD/tools/mlton/ratio-regions.mlton" \
          "KCfa k-cfa 10001" "McRay mc-ray 1"; do
   tools/check.sh $x
+done
+# higher-order/: MLton references built from tools/mlton/ho (same loop counts)
+for x in Defunctionalization:defunctionalization ReturnedClosures:returned-closures \
+         FunctionComposition:function-composition MutualRecursionHo:mutual-recursion-ho \
+         TreeFoldHo:tree-fold-ho CurryUncurry:curry-uncurry ClosureCapture:closure-capture \
+         HigherOrderList:higher-order-list ChurchEncoding:church-encoding CpsExplicit:cps-explicit \
+         CallbackState:callback-state; do
+  tools/check.sh ${x%%:*} ${x#*:} "" $PWD/tools/mlton/ho/${x#*:}.mlton
 done
