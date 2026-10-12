@@ -18,3 +18,4 @@ cps-convert	smlbench:exe:cps-convert	EXE
 knuth-bendix	smlbench:exe:knuth-bendix	EXE
 raytracer	smlbench:exe:raytracer	EXE
 ratio-regions	smlbench:exe:ratio-regions	EXE
+k-cfa	smlbench:exe:k-cfa	EXE

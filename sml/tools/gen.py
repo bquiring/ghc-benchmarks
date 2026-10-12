@@ -9,7 +9,7 @@ PROGRAMS = [
     ('tardis', 'Tardis'), ('interpreter', 'Interpreter'), ('parser-comb', 'ParserComb'),
     ('twenty-four', 'TwentyFour'), ('json-decode', 'JsonDecode'), ('cps-convert', 'CpsConvert'),
     ('knuth-bendix', 'KnuthBendix'), ('raytracer', 'Raytracer'),
-    ('ratio-regions', 'RatioRegions'),
+    ('ratio-regions', 'RatioRegions'), ('k-cfa', 'KCfa'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4

@@ -85,3 +85,7 @@ executable raytracer
 executable ratio-regions
   import:  prog
   main-is: RatioRegions.hs
+
+executable k-cfa
+  import:  prog
+  main-is: KCfa.hs
