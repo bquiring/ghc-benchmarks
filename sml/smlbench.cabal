@@ -173,3 +173,7 @@ executable zebra
 executable logic
   import:  prog
   main-is: Logic.hs
+
+executable smith-normal-form
+  import:  prog
+  main-is: SmithNormalForm.hs

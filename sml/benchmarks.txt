@@ -40,3 +40,4 @@ register-allocator	smlbench:exe:register-allocator	EXE
 dpll-sat	smlbench:exe:dpll-sat	EXE
 zebra	smlbench:exe:zebra	EXE
 logic	smlbench:exe:logic	EXE
+smith-normal-form	smlbench:exe:smith-normal-form	EXE
