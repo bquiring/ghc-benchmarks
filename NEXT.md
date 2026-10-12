@@ -1,8 +1,11 @@
 # Next benchmarks to write
 
-Agreed with the user on 2026-10-11.  Order: first get the current groups
-(first group, `large/`, GHC self-host) compiling cleanly under webs, then
-add these.
+Agreed with the user on 2026-10-11.  Priority order:
+
+1. Finish the current large programs (`large/`: ShellCheck, hledger, dhall,
+   pandoc; and the GHC self-host) compiling cleanly under webs.
+2. Translate the smaller SML benchmarks to Haskell (section 2 below).
+3. Then the other large Hackage programs (section 1 below).
 
 ## 1. More Hackage programs (a third group)
 
@@ -34,7 +37,7 @@ Priority A: higher-order programs not already in nofib (what webs targets):
 
 Priority B: mid-size MLton benchmarks (`from-mlton/`) not in nofib:
 logic, model-elimination (CPS-heavy), vliw, tsp, zebra, count-graphs,
-smith-normal-form, DLXSimulator, barnes-hut, tyan, zern.
+smith-normal-form ("snf"), DLXSimulator, barnes-hut, tyan, zern.
 
 Skip: already in nofib in some form (boyer, life, mandelbrot, tak, queens,
 simple, fft); too large or replaced by existing Haskell tools (hamlet, an
