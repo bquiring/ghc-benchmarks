@@ -206,6 +206,10 @@ executable dlx-simulator
   import:  prog
   main-is: DlxSimulator.hs
 
+executable model-elimination
+  import:  prog
+  main-is: ModelElimination.hs
+
 executable bdd
   import:  prog
   main-is: Bdd.hs

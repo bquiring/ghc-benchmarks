@@ -48,6 +48,7 @@ tyan	smlbench:exe:tyan	EXE
 barnes-hut	smlbench:exe:barnes-hut	EXE
 vliw	smlbench:exe:vliw	EXE
 dlx-simulator	smlbench:exe:dlx-simulator	EXE
+model-elimination	smlbench:exe:model-elimination	EXE
 bdd	smlbench:exe:bdd	EXE
 hamming	smlbench:exe:hamming	EXE
 sieve	smlbench:exe:sieve	EXE

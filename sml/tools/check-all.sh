@@ -34,6 +34,8 @@ for x in Zebra:zebra Logic:logic SmithNormalForm:smith-normal-form Tsp:tsp Count
 done
 # vliw reads tools/mlton/DATA, so its reference runs from there
 tools/check.sh Vliw vliw 1 $PWD/tools/mlton/vliw-run.sh
+# model-elimination's progress lines and per-problem timings depend on time
+FILTER='^\[m\(|^METIS: User' tools/check.sh ModelElimination model-elimination 1 $PWD/tools/mlton/model-elimination.mlton
 # ocaml/: OCaml testsuite programs (tests/misc), references built from
 # tools/ocaml/*.ml with ocamlopt, compared at N = 1
 eval $(opam env --switch=4.14.0 2>/dev/null)
