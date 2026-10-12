@@ -15,3 +15,4 @@ parser-comb	smlbench:exe:parser-comb	EXE
 twenty-four	smlbench:exe:twenty-four	EXE
 json-decode	smlbench:exe:json-decode	EXE
 cps-convert	smlbench:exe:cps-convert	EXE
+knuth-bendix	smlbench:exe:knuth-bendix	EXE

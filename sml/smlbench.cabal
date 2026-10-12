@@ -73,3 +73,7 @@ executable json-decode
 executable cps-convert
   import:  prog
   main-is: CpsConvert.hs
+
+executable knuth-bendix
+  import:  prog
+  main-is: KnuthBendix.hs

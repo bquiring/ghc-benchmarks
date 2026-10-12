@@ -24,8 +24,10 @@ Translation rules (so the Haskell measures the same program):
 - SML functions taking a tuple are curried (Haskell's calling convention);
   tuples that are values (stored, returned) stay tuples.
 - `ref` -> `IORef`/`STRef` (impure SML code runs in `ST`, with `unit -> a`
-  thunks as `ST` actions), arrays -> `Data.Array`; exceptions as Haskell
-  exceptions where the SML raises and handles them.  Only base,
+  thunks as `ST` actions), arrays -> `Data.Array`.  Exceptions raised and
+  handled inside pure code (knuth-bendix's Fail) -> `Maybe`; exceptions in
+  effectful code (derivative) -> Haskell exceptions.  Code that prints as
+  it computes runs in `IO`, writing to a per-round buffer.  Only base,
   containers, array and deepseq.
 - Each program prints what its SML original prints; where the SML prints
   per round, the translation prints one round's lines (if every round's
