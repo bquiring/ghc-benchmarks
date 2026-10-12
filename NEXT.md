@@ -7,6 +7,12 @@ Agreed with the user on 2026-10-11.  Priority order:
 2. Translate the 3CPS SML benchmarks to Haskell: `llvm-sml/` and
    `higher-order/` (section 2) -- in progress in `sml/`.
 3. Then the OCaml and MLton examples (section 2, Priority B, and section 3).
+   Done 2026-10-12: all Priority B MLton benchmarks (logic, model-elimination,
+   vliw, tsp, zebra, count-graphs, smith-normal-form, DLXSimulator,
+   barnes-hut, tyan, zern) and OCaml testsuite bdd, hamming, sieve, sorts,
+   all checked against MLton/ocamlopt (sml/tools/check-all.sh).  Still to
+   do: timing them under base and early-ulsl, and the MLton/OCaml
+   measurements below.
 4. Then the other large programs: cabal-install, Futhark, PureScript, Koka
    (section 1).
 
