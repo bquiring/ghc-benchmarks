@@ -38,3 +38,5 @@ applicative-functor	smlbench:exe:applicative-functor	EXE
 tree-traversal-ho	smlbench:exe:tree-traversal-ho	EXE
 register-allocator	smlbench:exe:register-allocator	EXE
 dpll-sat	smlbench:exe:dpll-sat	EXE
+zebra	smlbench:exe:zebra	EXE
+logic	smlbench:exe:logic	EXE

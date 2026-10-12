@@ -165,3 +165,11 @@ executable register-allocator
 executable dpll-sat
   import:  prog
   main-is: DpllSat.hs
+
+executable zebra
+  import:  prog
+  main-is: Zebra.hs
+
+executable logic
+  import:  prog
+  main-is: Logic.hs

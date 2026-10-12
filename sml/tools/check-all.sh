@@ -27,3 +27,8 @@ for x in Defunctionalization:defunctionalization ReturnedClosures:returned-closu
          RegisterAllocator:register-allocator DpllSat:dpll-sat; do
   tools/check.sh ${x%%:*} ${x#*:} "" $PWD/tools/mlton/ho/${x#*:}.mlton
 done
+# from-mlton/: references built from tools/mlton/<name>.sml (MLton's own
+# programs with a driver that prints a result), compared at N = 1
+for x in Zebra:zebra Logic:logic; do
+  tools/check.sh ${x%%:*} ${x#*:} 1 $PWD/tools/mlton/${x#*:}.mlton
+done

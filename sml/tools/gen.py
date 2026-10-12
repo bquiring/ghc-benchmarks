@@ -20,6 +20,8 @@ PROGRAMS = [
     ('polymorphic-ho', 'PolymorphicHo'), ('continuation-combinators', 'ContinuationCombinators'),
     ('applicative-functor', 'ApplicativeFunctor'), ('tree-traversal-ho', 'TreeTraversalHo'),
     ('register-allocator', 'RegisterAllocator'), ('dpll-sat', 'DpllSat'),
+    # from-mlton/ (MLton's benchmarks)
+    ('zebra', 'Zebra'), ('logic', 'Logic'),
 ]
 B = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 head = """cabal-version: 2.4
