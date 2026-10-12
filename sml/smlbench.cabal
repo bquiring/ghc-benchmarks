@@ -177,3 +177,7 @@ executable logic
 executable smith-normal-form
   import:  prog
   main-is: SmithNormalForm.hs
+
+executable tsp
+  import:  prog
+  main-is: Tsp.hs
