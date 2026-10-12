@@ -11,7 +11,7 @@ outputs (stdout and the files under out/) must be identical across
 configurations; a difference is reported as an error.  Writes
 results/timing-<label>.json and .md: per benchmark, the median over rounds
 of each configuration's ratio to the first configuration."""
-import argparse, json, math, os, random, re, shlex, statistics as st, subprocess, sys, tempfile
+import argparse, json, math, os, random, re, shlex, shutil, statistics as st, subprocess, sys, tempfile
 
 TOP = os.path.dirname(os.path.abspath(__file__))
 # A benchmark group: this directory, or a subdirectory with its own
@@ -53,7 +53,12 @@ def run_once(config, name, exe, cmd, cpu, timeout):
     argv = [a.replace('out/' + name, 'out/%s-%s' % (name, config)) for a in argv]
     for a in argv:
         if a.startswith('out/') and os.path.exists(os.path.join(HERE, a)):
-            os.remove(os.path.join(HERE, a))
+            # a directory (a compiler's output or build directory) is
+            # deleted so that nothing is reused, but not compared (outputs)
+            if os.path.isdir(os.path.join(HERE, a)):
+                shutil.rmtree(os.path.join(HERE, a))
+            else:
+                os.remove(os.path.join(HERE, a))
     fd, perf_out = tempfile.mkstemp(suffix='.perf'); os.close(fd)
     fd, rts_out = tempfile.mkstemp(suffix='.rts'); os.close(fd)
     full = (['taskset', '-c', str(cpu), 'perf', 'stat', '-x,', '-o', perf_out, '-e', 'instructions:u']
@@ -92,7 +97,7 @@ def outputs(name, config):
     """The files a run wrote, for comparing configurations"""
     d = os.path.join(HERE, 'out')
     return {f: open(os.path.join(d, f), 'rb').read() for f in sorted(os.listdir(d))
-            if f.startswith('%s-%s' % (name, config))}
+            if f.startswith('%s-%s' % (name, config)) and os.path.isfile(os.path.join(d, f))}
 
 
 def main():
