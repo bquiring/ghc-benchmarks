@@ -1,6 +1,8 @@
 # The large group (BENCH_GROUP=large): name<TAB>package:exe:name<TAB>command, run in this directory<TAB>optional ok=EXIT,CODES
 # dhall: no usable cache directory, so that every run checks the imports' hashes (a cached run is twice as fast)
-shellcheck	ShellCheck:exe:shellcheck	EXE --shell=sh --format=gcc GHC_TREE/configure	ok=0,1
+# shellcheck: GHC's own configure (19k lines) needs more than 12 GB even
+# without webs; libraries/unix/configure (7.9k lines) takes ~8 s, 2.8 GB
+shellcheck	ShellCheck:exe:shellcheck	EXE --shell=sh --format=gcc GHC_TREE/libraries/unix/configure	ok=0,1
 hledger	hledger:exe:hledger	EXE -f inputs/journal.journal balance --tree --monthly --value=then,$ -o out/hledger.txt
 dhall	dhall:exe:dhall	env XDG_CACHE_HOME=/nonexistent/cache EXE type --file dhall-1.42.3/dhall-lang/Prelude/package.dhall
 # pandoc: set aside 2026-10-11 (user: "move on unless we need that in particular"):
