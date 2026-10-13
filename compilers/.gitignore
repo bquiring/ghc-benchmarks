@@ -11,3 +11,5 @@
 /inputs/purescript-libs/
 /inputs/ps-packages.json
 /inputs/cabal-solve/store/
+/inputs/cabal-solve/packages/
+/inputs/cabal-solve/config

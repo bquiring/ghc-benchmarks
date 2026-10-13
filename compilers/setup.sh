@@ -35,8 +35,21 @@ if [ ! -s frozen.project ]; then
   cabal --store-dir="$PWD/../store" freeze --builddir=dist-solve
   mv cabal.project.freeze frozen.project
 fi
-# Inputs.  cabal: inputs/cabal-solve (in the repo).  Futhark: the
-# futhark-benchmarks suite (with its libraries), at a pinned commit
+# Inputs.  cabal: inputs/cabal-solve (in the repo), with its own copy of
+# the Hackage index (packages/) and a config file pointing at it, so that
+# no other cabal (an update, a build in parallel) changes or locks its input
+if [ ! -f inputs/cabal-solve/packages/hackage.haskell.org/01-index.tar ]; then
+  mkdir -p inputs/cabal-solve/packages/hackage.haskell.org
+  cp -p ~/.cabal/packages/hackage.haskell.org/{01-index.tar,01-index.tar.idx,01-index.timestamp,01-index.cache,root.json,mirrors.json,snapshot.json,timestamp.json} \
+    inputs/cabal-solve/packages/hackage.haskell.org/
+fi
+cat > inputs/cabal-solve/config <<EOF
+repository hackage.haskell.org
+  url: http://hackage.haskell.org/
+remote-repo-cache: $PWD/inputs/cabal-solve/packages
+EOF
+# Futhark: the futhark-benchmarks suite (with its libraries), at a pinned
+# commit
 if [ ! -d inputs/futhark-benchmarks ]; then
   git clone -q https://github.com/diku-dk/futhark-benchmarks inputs/futhark-benchmarks
   git -C inputs/futhark-benchmarks checkout -q 4d43e06e9076631bbf06eb4134a17ed5b6a30f37

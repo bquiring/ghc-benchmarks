@@ -1,7 +1,8 @@
 # The compilers group (BENCH_GROUP=compilers): name<TAB>package:exe:name<TAB>command, run in this directory<TAB>optional ok=EXIT,CODES
 # cabal: plan solve-me's 319 dependencies (pandoc, dhall, ...) against the
-# local Hackage index (--dry-run: nothing is built; the store stays empty)
-cabal	cabal-install:exe:cabal	EXE --store-dir=inputs/cabal-solve/store build --dry-run --project-file=inputs/cabal-solve/cabal.project --builddir out/cabal all
+# local Hackage index, its own copy (setup.sh) (--dry-run: nothing is built;
+# the store stays empty)
+cabal	cabal-install:exe:cabal	EXE --config-file=inputs/cabal-solve/config --store-dir=inputs/cabal-solve/store build --dry-run --project-file=inputs/cabal-solve/cabal.project --builddir out/cabal all
 # futhark: compile Rodinia's myocyte (the suite's largest program) through the
 # GPU pipeline to OpenCL C (--library: writes .c/.h/.json, runs no C compiler);
 # -N1: the threaded RTS cannot start a thread per core under ulimit -v
