@@ -9,8 +9,9 @@ pinned to one core, under perf stat (user-space instructions) with the
 RTS's machine-readable statistics (allocation, mutator and GC time).  The
 outputs (stdout and the files under out/) must be identical across
 configurations; a difference is reported as an error.  Writes
-results/timing-<label>.json and .md: per benchmark, the median over rounds
-of each configuration's ratio to the first configuration."""
+results/timing-<label>.json and .md: per benchmark, the ratio of each
+configuration's median over rounds to the first configuration's median.
+"Time" is the RTS's mutator plus GC CPU time, not wall time."""
 import argparse, json, math, os, random, re, shlex, shutil, statistics as st, subprocess, sys, tempfile
 
 TOP = os.path.dirname(os.path.abspath(__file__))
@@ -166,7 +167,7 @@ def main():
     base = a.configs[0]
     lines = ['# Hackage benchmarks: %s' % ' vs '.join(a.configs), '',
              '%d rounds, CPU %d.  Each cell: the configuration\'s median against %s.' % (a.rounds, a.cpu, base), '',
-             '| benchmark | %s time (s) | %s instructions (G) | %s |' % (
+             '| benchmark | %s mut+GC time (s) | %s instructions (G) | %s |' % (
                  base, base, ' | '.join('%s instructions | %s time | %s allocation' % (c, c, c) for c in a.configs[1:])),
              '|---|---|---|%s' % ('---|' * (3 * (len(a.configs) - 1)))]
     ratios = {c: {m: [] for m in ['instructions', 'time', 'alloc']} for c in a.configs[1:]}
