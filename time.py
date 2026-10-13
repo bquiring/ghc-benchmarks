@@ -99,10 +99,17 @@ def run_once(config, name, exe, cmd, cpu, timeout):
     return s
 
 
+# Build stamps a program writes into its output: Futhark records the git
+# commit of the checkout it was built in (this repository), which differs
+# between configurations built at different commits
+STAMPS = re.compile(rb'git: \S+ @ [0-9a-f]+ \([^)]*\)( \[modified\])?')
+
+
 def outputs(name, config):
     """The files a run wrote, for comparing configurations"""
     d = os.path.join(HERE, 'out')
-    return {f: open(os.path.join(d, f), 'rb').read() for f in sorted(os.listdir(d))
+    return {f: STAMPS.sub(b'git: STAMP', open(os.path.join(d, f), 'rb').read())
+            for f in sorted(os.listdir(d))
             if f.startswith('%s-%s' % (name, config)) and os.path.isfile(os.path.join(d, f))}
 
 
