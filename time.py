@@ -202,8 +202,9 @@ def main():
                     cells.append('%+.2f%%' % (100 * (x / b - 1)))
                 else:
                     cells.append('—')
-        lines.append('| %s | %.2f | %.2f | %s |' % (name, med(name, base, 'time') or 0,
-                                                     (med(name, base, 'instructions') or 0) / 1e9, ' | '.join(cells)))
+        ins = med(name, base, 'instructions')
+        lines.append('| %s | %.2f | %s | %s |' % (name, med(name, base, 'time') or 0,
+                                                   '%.2f' % (ins / 1e9) if ins else '—', ' | '.join(cells)))
     geo = []
     for c in a.configs[1:]:
         for m in ['instructions', 'time', 'alloc']:
