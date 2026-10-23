@@ -9,5 +9,6 @@
 /store/
 /*.project
 !/cabal.project
+!/frozen.project
 store-quarantine/
 __pycache__/
