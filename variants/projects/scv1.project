@@ -1,0 +1,27 @@
+-- The large Hackage benchmarks (benchmarks.txt here), built with the in-tree
+-- compiler.  Unlike the first group (../cabal.project), dependencies are
+-- downloaded and pinned by cabal.project.freeze (setup.sh).
+packages: ShellCheck-0.11.0-v1/ hledger-1.52.4/ dhall-1.42.3/ pandoc-cli-3.12/
+          -- Agda-2.8.0.2/: set aside (benchmarks.txt)
+          -- build-type changed from Custom (cabal-doctest) to Simple
+          xml-conduit-1.10.1.0/
+          -- nubOrd(By) assumed in base after GHC 9.14, not in the 9.15 snapshot
+          extra-1.8.1/
+-- SpecConstr explodes on Hledger.Read.JournalReader at -O2 (out of memory
+-- under the 4 GB limit with the debug compiler, even without webs); off for
+-- hledger-lib in every configuration
+package hledger-lib
+  ghc-options: -fno-spec-constr
+-- SpecConstr explodes on Text.Pandoc.Citeproc.BibTeX too (out of 14 GB, even
+-- without webs): off for pandoc in every configuration, as for hledger-lib
+package pandoc
+  ghc-options: -fno-spec-constr -dno-debug-output
+with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
+allow-newer: all
+-- Setup scripts (build-type: Custom) use the compiler's own Cabal
+constraints: any.Cabal installed, any.Cabal-syntax installed
+-- Every dependency's version and flags, from 'cabal freeze' (setup.sh)
+import: frozen.project
+-- shellcheck v1 (webs proposals 6/7 by hand); otherwise base
+package *
+  ghc-options: -O2 -rtsopts

@@ -1,0 +1,17 @@
+diff -ruN -x dist-newstyle -x .git koka-3.2.9/src/Common/Range.hs koka-3.2.9-v2/src/Common/Range.hs
+--- koka-3.2.9/src/Common/Range.hs	2026-10-12 14:36:31.066446017 -0400
++++ koka-3.2.9-v2/src/Common/Range.hs	2026-10-22 20:58:41.513179187 -0400
+@@ -248,9 +248,10 @@
+   Ranges
+ --------------------------------------------------------------------------}
+ -- | Source range
+-data Range  = Range{ rangeStart :: !Pos,
+-                     rangeEnd :: !Pos,
+-                     rangeIsHidden :: !Bool  -- do not add to the range map (used for internally generated expressions)
++-- (webs proposal 6 experiment: positions flattened into the range)
++data Range  = Range{ rangeStart :: {-# UNPACK #-} !Pos,
++                     rangeEnd :: {-# UNPACK #-} !Pos,
++                     rangeIsHidden :: {-# UNPACK #-} !Bool  -- do not add to the range map (used for internally generated expressions)
+                    }
+             deriving Eq
+ 

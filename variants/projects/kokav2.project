@@ -1,0 +1,40 @@
+-- The compilers group (BENCH_GROUP=compilers): cabal-install, Futhark,
+-- PureScript and Koka, built with the in-tree compiler.  Sources come from
+-- Hackage (cabal unpack) and GitHub (Koka), dependencies are pinned by
+-- frozen.project (setup.sh).
+packages: cabal-install-3.18.1.0/ futhark-0.27.1/ purescript-0.15.15/ koka-3.2.9-v2/
+          -- PureScript's pinned parser generator, patched for newer mtl (setup.sh)
+          happy-1.20.0/
+          -- PureScript's pattern-arrows, patched for newer mtl (setup.sh)
+          pattern-arrows-0.0.2/
+          -- PureScript's Markdown parser, patched for newer mtl (setup.sh)
+          cheapskate-0.1.1.2/
+with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
+allow-newer: all
+-- Setup scripts (build-type: Custom) use the compiler's own Cabal;
+-- cabal-install itself needs Cabal 3.18 as a library
+constraints: setup.Cabal installed, setup.Cabal-syntax installed
+-- Koka's fork of lsp (from koka-3.2.9-v2/cabal.project)
+source-repository-package
+  type: git
+  location: https://github.com/TimWhiting/lsp.git
+  tag: e744cb200cc054a06d9fd698bf4263a9cb1b51b1
+  subdir: lsp
+source-repository-package
+  type: git
+  location: https://github.com/TimWhiting/lsp.git
+  tag: e744cb200cc054a06d9fd698bf4263a9cb1b51b1
+  subdir: lsp-types
+constraints: lsp -websockets
+-- allow-newer lets the solver pair process's old-filepath flag setting with
+-- filepath 1.5, and pick some 1.1, whose GEq needs an EqP instance that
+-- Koka's lsp-types lacks
+-- extra 1.8.1 takes nubOrdBy from base on GHC > 9.14, but this compiler's
+-- base lacks it
+-- futhark 0.27.1 pins futhark-manifest 1.9 (1.10 drops its uniqueness fields)
+constraints: process +os-string, some <1.1, extra ==1.8, futhark-manifest ==1.9.0.0
+-- Every dependency's version and flags, from 'cabal freeze' (setup.sh)
+import: frozen.project
+-- koka v2 (webs proposal 6 by hand); otherwise base
+package *
+  ghc-options: -O2 -rtsopts

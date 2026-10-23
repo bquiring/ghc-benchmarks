@@ -1,0 +1,26 @@
+diff -ruN -x dist-newstyle ShellCheck-0.11.0/src/ShellCheck/CFGAnalysis.hs ShellCheck-0.11.0-v1/src/ShellCheck/CFGAnalysis.hs
+--- ShellCheck-0.11.0/src/ShellCheck/CFGAnalysis.hs	2001-09-08 21:46:40.000000000 -0400
++++ ShellCheck-0.11.0-v1/src/ShellCheck/CFGAnalysis.hs	2026-10-22 20:58:41.291186995 -0400
+@@ -309,16 +309,17 @@
+ unknownFunctionValue = S.singleton FunctionUnknown
+ 
+ -- The information about the value of a single variable
++-- (webs proposal 7 experiment: strict fields)
+ data VariableValue = VariableValue {
+-    literalValue :: Maybe String, -- TODO: For debugging. Remove me.
+-    spaceStatus :: SpaceStatus,
+-    numericalStatus :: NumericalStatus
++    literalValue :: !(Maybe String), -- TODO: For debugging. Remove me.
++    spaceStatus :: !SpaceStatus,
++    numericalStatus :: !NumericalStatus
+ }
+     deriving (Show, Eq, Ord, Generic, NFData)
+ 
+ data VariableState = VariableState {
+-    variableValue :: VariableValue,
+-    variableProperties :: VariableProperties
++    variableValue :: !VariableValue,
++    variableProperties :: !VariableProperties
+ }
+     deriving (Show, Eq, Ord, Generic, NFData)
+ 

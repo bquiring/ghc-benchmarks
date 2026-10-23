@@ -1,0 +1,20 @@
+-- The Hackage benchmarks (benchmarks.txt), built with the in-tree compiler.
+-- The benchmarks themselves are unpacked here; their dependencies come from
+-- the local cabal cache, pinned to the cached versions (cached.project, from
+-- gen-constraints.py).
+packages: happy-2.1.3/ happy-lib-2.1.3-v/ alex-3.5.2.0/
+          cpphs-1.20.10/ skylighting-0.13/ pandoc-2.19.2/
+          -- build-type changed from Custom (cabal-doctest) to Simple
+          wai-logger-2.4.0/
+          xml-conduit-1.9.1.1/
+with-compiler: /home/benjamin/projects/ghc-webs/_build/stage1/bin/ghc
+allow-newer: all
+import: cached.project
+package skylighting
+  flags: +executable
+-- Setup scripts (build-type: Custom) use the compiler's own Cabal: the
+-- cached Cabal-3.12 does not build with this compiler
+constraints: any.Cabal installed, any.Cabal-syntax installed
+-- happy-lib with a local lookup (webs proposal 8 by hand); otherwise base22
+package *
+  ghc-options: -O2 -rtsopts -fcore-webs-spec-max-keys=4
