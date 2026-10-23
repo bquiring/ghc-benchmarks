@@ -43,10 +43,19 @@ def benchmarks():
 
 
 def binary(config, exe):
-    r = subprocess.run(['cabal', '--store-dir=' + os.path.join(TOP, 'store'), 'list-bin',
+    # the store build.sh used for this configuration (BENCH_STORE, for
+    # another compiler tree), recorded in results/CONFIG/store
+    try:
+        store = open(os.path.join(HERE, 'results', config, 'store')).read().strip()
+    except OSError:
+        store = os.path.join(TOP, 'store')
+    r = subprocess.run(['cabal', '--store-dir=' + store, 'list-bin',
                         '--project-file=%s.project' % config, '--builddir=dist-' + config, exe if ':' in exe else 'exe:' + exe],
                        cwd=HERE, capture_output=True, text=True)
-    return r.stdout.strip()
+    path = r.stdout.strip()
+    if not path or not os.path.isfile(path):
+        raise RuntimeError('%s: no binary for %s in dist-%s (store %s): %s' % (config, exe, config, store, r.stderr.strip()[-300:]))
+    return path
 
 
 def perf_ok():
