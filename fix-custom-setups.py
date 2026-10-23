@@ -10,13 +10,17 @@ stanza, and list it in cabal.project; repeat until the plan resolves.
     python3 fix-custom-setups.py exe:a exe:b ..."""
 import os, re, subprocess, sys
 
-# A benchmark group (BENCH_GROUP=large): its own cabal.project; without a
-# cached.project (the group downloads), the newest version is unpacked
+# A benchmark group (BENCH_GROUP=large): its own cabal.project.  Versions
+# come from the file cabal.project imports: cached.project (the local cache,
+# offline) or frozen.project (the pins, any.pkg ==ver); without one, the
+# newest version is unpacked
 HERE = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.environ.get('BENCH_GROUP', '.'))
 targets = sys.argv[1:]
-cached = os.path.join(HERE, 'cached.project')
-pins = (dict(re.findall(r'^\s+(\S+) == ([^\s,]+),?$', open(cached).read(), re.M))
-        if os.path.exists(cached) else None)
+imported = re.search(r'^import:\s*(\S+)', open(os.path.join(HERE, 'cabal.project')).read(), re.M)
+imported = imported and os.path.join(HERE, imported.group(1))
+pins = (dict(re.findall(r'^\s+(?:any\.)?([A-Za-z0-9-]+) ?== ?([^\s,]+),?$', open(imported).read(), re.M))
+        if imported and os.path.exists(imported) else None)
+offline = bool(imported) and os.path.basename(imported) == 'cached.project'
 
 
 def patch(d, pkg):
@@ -43,7 +47,7 @@ if targets[:1] == ['--listed']:
     sys.exit(0)
 
 for _ in range(40):
-    r = subprocess.run(['cabal', 'build'] + (['--offline'] if pins is not None else []) + ['--dry-run'] + targets,
+    r = subprocess.run(['cabal', 'build'] + (['--offline'] if offline else []) + ['--dry-run'] + targets,
                        cwd=HERE, capture_output=True, text=True)
     out = r.stdout + r.stderr
     if r.returncode == 0:
@@ -63,7 +67,7 @@ for _ in range(40):
     else:
         ver = pins.get(pkg)
         if ver is None:
-            print('no cached version of', pkg); sys.exit(1)
+            print('no pinned version of', pkg); sys.exit(1)
         d = '%s-%s' % (pkg, ver)
     patch(d, pkg)
     pf = os.path.join(HERE, 'cabal.project')
