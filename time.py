@@ -5,7 +5,8 @@ built by build.sh:
     python3 time.py CONFIG... [--rounds N] [--cpu C] [--timeout S]
 
 Each round runs every benchmark in every configuration, in random order,
-pinned to one core, under perf stat (user-space instructions) with the
+pinned to one core, under perf stat (user-space instructions, where perf
+can count them) with the
 RTS's machine-readable statistics (allocation, mutator and GC time).  The
 outputs (stdout and the files under out/) must be identical across
 configurations; a difference is reported as an error.  Writes
@@ -48,7 +49,18 @@ def binary(config, exe):
     return r.stdout.strip()
 
 
-def run_once(config, name, exe, cmd, cpu, timeout):
+def perf_ok():
+    """Whether perf can count user-space instructions here (not in WSL2,
+    whose hypervisor hides the counters)"""
+    try:
+        r = subprocess.run(['perf', 'stat', '-x,', '-e', 'instructions:u', 'true'],
+                           capture_output=True, text=True)
+    except OSError:
+        return False
+    return r.returncode == 0 and any(l.split(',')[0].strip().isdigit() for l in r.stderr.splitlines())
+
+
+def run_once(config, name, exe, cmd, cpu, timeout, use_perf):
     prog = binary(config, exe)
     argv = shlex.split(cmd.replace('EXE', prog).replace('GHC_TREE', GHC_TREE))
     argv = [a.replace('out/' + name, 'out/%s-%s' % (name, config)) for a in argv]
@@ -66,7 +78,8 @@ def run_once(config, name, exe, cmd, cpu, timeout):
                     os.remove(os.path.join(HERE, 'out', f))
     fd, perf_out = tempfile.mkstemp(suffix='.perf'); os.close(fd)
     fd, rts_out = tempfile.mkstemp(suffix='.rts'); os.close(fd)
-    full = (['taskset', '-c', str(cpu), 'perf', 'stat', '-x,', '-o', perf_out, '-e', 'instructions:u']
+    full = (['taskset', '-c', str(cpu)]
+            + (['perf', 'stat', '-x,', '-o', perf_out, '-e', 'instructions:u'] if use_perf else [])
             + argv + ['+RTS', '-t' + rts_out, '--machine-readable', '-RTS'])
     try:
         r = subprocess.run(full, cwd=HERE, capture_output=True, text=True, timeout=timeout)
@@ -125,6 +138,9 @@ def main():
     os.makedirs(os.path.join(HERE, 'out'), exist_ok=True)
     os.makedirs(os.path.join(HERE, 'results'), exist_ok=True)
     benches = benchmarks()
+    use_perf = perf_ok()
+    if not use_perf:
+        print('perf cannot count instructions here: timing and allocation only', flush=True)
     samples = {n: {c: [] for c in a.configs} for n, _, _ in benches}
     errors = {}
     for rnd in range(a.rounds):
@@ -133,7 +149,7 @@ def main():
         for (name, exe, cmd), c in order:
             if name in errors:
                 continue
-            s = run_once(c, name, exe, cmd, a.cpu, a.timeout)
+            s = run_once(c, name, exe, cmd, a.cpu, a.timeout, use_perf)
             if 'error' in s:
                 errors[name] = '%s [%s]' % (s['error'], c)
                 continue
@@ -153,7 +169,8 @@ def main():
         for c in samples[n]:
             for s in samples[n][c]:
                 s.pop('stdout', None)
-    data = {'configs': a.configs, 'rounds': a.rounds, 'cpu': a.cpu, 'samples': samples, 'errors': errors}
+    data = {'configs': a.configs, 'rounds': a.rounds, 'cpu': a.cpu, 'perf': use_perf,
+            'samples': samples, 'errors': errors}
     jpath = os.path.join(HERE, 'results', 'timing-%s.json' % a.label)
     json.dump(data, open(jpath, 'w'), indent=1)
 
@@ -166,7 +183,8 @@ def main():
 
     base = a.configs[0]
     lines = ['# Hackage benchmarks: %s' % ' vs '.join(a.configs), '',
-             '%d rounds, CPU %d.  Each cell: the configuration\'s median against %s.' % (a.rounds, a.cpu, base), '',
+             '%d rounds, CPU %d%s.  Each cell: the configuration\'s median against %s.' % (
+                 a.rounds, a.cpu, '' if use_perf else ', no instruction counts (perf unavailable)', base), '',
              '| benchmark | %s mut+GC time (s) | %s instructions (G) | %s |' % (
                  base, base, ' | '.join('%s instructions | %s time | %s allocation' % (c, c, c) for c in a.configs[1:])),
              '|---|---|---|%s' % ('---|' * (3 * (len(a.configs) - 1)))]
