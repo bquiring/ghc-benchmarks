@@ -36,6 +36,9 @@ def benchmarks():
             # an optional 4th column: the accepted exit codes (ok=0,1)
             f4 = line.rstrip('\n').split('\t')
             name, exe, cmd = f4[:3]
+            # BENCH_ONLY=a,b: only these benchmarks
+            if os.environ.get('BENCH_ONLY') and name not in os.environ['BENCH_ONLY'].split(','):
+                continue
             ok = [int(c) for c in f4[3][3:].split(',')] if len(f4) > 3 else [0]
             OK_CODES[name] = ok
             out.append((name, exe, cmd))
